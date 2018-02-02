@@ -8,6 +8,7 @@ This app will randomly display a quote using Forismatic API.  You are given the 
 - JavaScript
 - jquery
 - Font Awesome
+- Bootstrap 3
 - Forismatic API
 
 ## Learning Outcomes
