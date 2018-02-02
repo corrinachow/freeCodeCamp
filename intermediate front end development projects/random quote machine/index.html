@@ -1,37 +1,36 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Random Quote Generator</title>
-    <!-- Custom fonts -->
-    <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- CSS -->
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+<head>
+  <meta charset="utf-8">
+  <title>Random Quote Generator</title>
+  <!-- Custom fonts -->
+  <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
+  <!-- CSS -->
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+</head>
 
-    <link rel="stylesheet" href="./style.css"/>
-  </head>
-  <body>
-    <section class="container-fluid">
-      <div class="quote-box">
-        <div class="quotations"><i class="fa fa-quote-left"></i></div>
-        <p id="quote"></p>
-        <div class="quote-author">
-          <p id="author"></p>
-        </div>
-        <hr>
-        <div class="buttons">
-          <button class="button btn btn-default btn-circle btn-xl"><a id="tweet-quote" title="Share on Twitter" target="_blank">
-          <i class="fab fa-twitter"></i></a></button>
-          <button class="button btn btn-default btn-circle btn-xl" id="newQuote"><i class="fas fa-chevron-right"></i></button>
-          <!---->
-          <div class="footer"> by <a href="https://codepen.io/julianmintz/">julianmintz</a> for educational purposes</div>
-        </div>
+<body>
+  <section class="container-fluid">
+    <div class="quote-box">
+      <div class="quotations"><i class="fa fa-quote-left"></i></div>
+      <p id="quote"></p>
+      <div class="quote-author">
+        <p id="author"></p>
       </div>
-    </section>
-    <script
-      src="http://code.jquery.com/jquery-3.3.1.js"
-      integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60="
-      crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
-  </body>
+      <hr>
+      <div class="buttons">
+        <button class="button btn btn-default btn-circle btn-xl"><a id="tweet-quote" title="Share on Twitter" target="_blank">
+          <i class="fab fa-twitter"></i></a>
+        </button>
+        <button class="button btn btn-default btn-circle btn-xl" id="newQuote"><i class="fas fa-chevron-right"></i>
+        </button>
+      </div>
+      <!---->
+    </div>
+    <div class="footer"> by <a href="https://codepen.io/julianmintz/">julianmintz</a> for educational purposes
+    </div>
+  </section>
+  <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+  <script src="./script.js"></script>
+</body>
 </html>

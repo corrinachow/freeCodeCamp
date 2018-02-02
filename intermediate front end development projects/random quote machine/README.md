@@ -18,3 +18,4 @@ This app will randomly display a quote using Forismatic API.  You are given the 
 ## Learning Outcomes
 
 - Retrieve and use data from an API
+- Flexbox justification
