@@ -1,0 +1,22 @@
+body {
+  background: grey;
+}
+.container-fluid {
+  margin: 100px;
+  background: red;
+  text-align: center;
+}
+
+
+.weather-info {
+  background: blue;
+}
+
+#weather-icon {
+  font-size: 3em;
+  text-
+}
+
+.weather-info {
+  font-size: 2em;
+}
