@@ -1,4 +1,5 @@
 var api = "https://fcc-weather-api.glitch.me/api/current?";
+var tempC;
 
 $( document ).ready(function() {
   if (navigator.geolocation) {
@@ -10,20 +11,34 @@ $( document ).ready(function() {
   } else {
     console.log("Geolocation not available.")
   }
+
+  $("#tempUnit").click(function () {
+    var currentUnit = $("#tempUnit").text();
+    var newUnit = currentUnit === "C" ? "F" : "C";
+    $("#tempUnit").text(newUnit);
+    if (newUnit === "F") {
+      var tempF = Math.round(parseInt(tempC) * (9/5) + 32);
+      $("#temperature").text(tempF);
+    } else {
+      $("#temperature").text(tempC);
+    }
+  });
 });
-
-
 
 
 function getWeather(lat, lon) {
   var urlAPI = api + lat + "&" + lon;
   $.ajax({
     url: urlAPI, success: function (data) {
-      $("#weather-icon").html("<img src='" + data.weather[0].icon+"'/>") //temp lol use http://erikflowers.github.io/weather-icons/
+      $("#weather-icon").html("<img src='" + data.weather[0].icon + "'/>") //temp lol use http://erikflowers.github.io/weather-icons/
       $("#location").text(data.name + ", " + data.sys.country);
-      $("#temperature").text(data.main.temp);
+      tempC = Math.round(data.main.temp);
+      $("#temperature").text(tempC);
+      $("#weather").text(data.weather[0].description);
     }
   });
 }
 
-//var fullDate = new Date() //Sat Feb 03 2018 00:27:08 GMT-0500 (EST)
+
+
+
