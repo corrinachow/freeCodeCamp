@@ -1,14 +1,14 @@
 body {
-  background: grey;
+  color: white;
 }
 .container-fluid {
-  margin: 100px;
-  background: red;
-  text-align: center;
+  margin: 10%;
+  background-color: white;
+  border-radius: 10px;
+  color: grey;
 }
 
 .weather-info {
-  background: blue;
 }
 
 #weather-icon {
