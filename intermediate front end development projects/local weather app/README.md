@@ -1,18 +1,21 @@
 # Local Weather App
 
-This app shows you the local weather in your current location.  Backgrounds change depending on the weather and temperature is available in Celcius as well as Fahrenheit.
+Weather app that displays the weather in your current location.  Backgrounds will change according to weather conditions, and allows toggling between imperarial and metric systems.
 
 ## Live Demo
 
-TBA
+[CodePen](https://codepen.io/julianmintz/full/KQgQGE/)
 
 ## Tools
+
 - HTML5
 - CSS3
 - JavaScript
-- jquery
-- Font Awesome
+- jQuery
+- [Open Weather Map API](https://openweathermap.org/)
+- [Erik Flowers' Weather Icons](https://github.com/erikflowers/weather-icons)
 
 ## Learning Outcomes
 
--
+- jQuery AJAX, HTML, and effects methods
+- CSS animations (loading, transition)
