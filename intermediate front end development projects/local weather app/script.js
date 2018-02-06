@@ -5,8 +5,8 @@ var iconId;
 var colours;
 //category: [icon, body colour, weather-info colour]
 var weatherIcons = {
-  'clear-day' : ['wi-day-sunny', '#eee8cd', '#000000'],
-  'clear-night' : ['wi-night-clear', '#05234d', '#7b88b8'],
+  'clearday' : ['wi-day-sunny', '#ffee99', '#fffcb7'],
+  'clearnight' : ['wi-night-clear', '#514663', '#ddd5e8'],
   200 : ['wi-thunderstorm', '#726da8', '#a0d2db'], //thunderstorm
   300 : ['wi-showers', '#5a93c7', '#afcce1'], //drizzle
   500 : ['wi-rain', '#93a4b0', '#8299a0'], //rain
@@ -49,12 +49,16 @@ function getWeather(lat, lon) {
         $("#weather").text(data.weather[0].description);
         $("#date").text(date[0] + " | " + date[1] + " " + date[2] + " | " + date[3])
         iconId = data.weather[0].id;
-        if (/01d/.test(iconId)) {
-          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-day[0]);
-          $("body").css("background-color", weatherIcons.clear-day[1]);
-        } else if (/01n/.test(iconId)) {
-          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-night[0]);
-          $("body").css("background-color", weatherIcons.clear-night[1]);
+        if (/01d/.test(data.weather[0].icon)) {
+          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clearday[0]);
+          $("body").css("background-color", weatherIcons.clearday[1]);
+          $(".weather-info").css("background-color", weatherIcons.clearday[2]);
+          smoothAnimation = setTimeout(showPage);
+        } else if (/01n/.test(data.weather[0].icon)) {
+          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clearnight[0]);
+          $("body").css("background-color", weatherIcons.clearnight[1]);
+          $(".weather-info").css("background-color", weatherIcons.clearnight[2]);
+          smoothAnimation = setTimeout(showPage);
         } else {
         changeColours(iconId);
         smoothAnimation = setTimeout(showPage);
