@@ -7,7 +7,7 @@ h1 {
 }
 
 body {
-  margin: 10% 25% 25% 25%;
+  padding: 10% 25% 0 25%;
   font-family: 'Ubuntu', sans-serif;
   background-color: #eee8cd;
   text-align: center;
@@ -22,41 +22,53 @@ body {
   text-shadow: 2px 2px 2px #ccc;
 }
 
-hr {
-  margin-top: -20px;
-  width: 50%;
-  border: 0;
-  height: 1px;
-  background-image: linear-gradient(to right, rgba(0, 0, 0, 0), rgba(0, 0, 0, 0.75), rgba(0, 0, 0, 0));
-}
-
-
 #weather-icon .weather-info {
   -webkit-transition: opacity 1s ease-in-out;
   transition: opacity 1s ease-in-out;
 }
 
 #tempReading {
-  font-size: 5em;
+  display: ;
+  font-size: 4em;
   box-shadow: 5px;
+  padding-bottom: 10px;
+}
+
+#tempReading:hover, .button:hover {
+  color: lightblue;
+  transition: all 0.5s ease;
 }
 
 #weather-icon {
-  font-size: 5em;
-  padding: 20px;
+  font-size: 7em;
+  padding-top: 10px;
+  padding-bottom: 35px;
+}
+
+#location{
+  text-transform: uppercase;
+  padding-top: 35px;
+}
+
+#weather {
+  padding-bottom: 20px;
 }
 
 .weather-info {
-  padding: 5%;
+  padding-top: 30px;
   background: #eee8cd;
   border-bottom-left-radius: 10px;
   border-bottom-right-radius: 10px;
   border-top: 1px dashed #ccc;
-
 }
 
-.footer {
-  padding-top: 5%;
+#date {
+  text-transform: uppercase;
+  padding-bottom: 30px
+}
+
+.footer, .about{
+  padding: 10px 10px;
   font-size: 10px;
 }
 

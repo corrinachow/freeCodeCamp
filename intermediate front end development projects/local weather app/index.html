@@ -12,22 +12,23 @@
   </head>
   <body>
     <h1>local weather</h1>
-      <hr>
-    <div id="loader" style="display:block">
+    <div class="button" id="retrieveWeather" style="display: block">click here to retrieve weather</div>
+    <div id="loader" style="display:none">
       <p>LOADING</p>
       <div class="loadAnimation"></div>
     </div>
     <div id="weatherBox" class="container-fluid text-center animate-bottom" style='display:none'>
+      <div id="location"></div>
       <i id=weather-icon class=""></i>
+      <div id="weather"></div>
         <div class="weather-info">
-          <div id="location"></div>
+          <div id="date"></div>
           <div id="tempReading">
             <div class="temperature">
               <span id="temperature"></span>&deg;<span id="tempUnit">C</span>
           </div>
         </div>
-          <div id="date"></div>
-            <div id="weather"></div>
+    <p class="about">click the unit to convert between °C and °F</p>
             <div class="footer"> by <a href="https://codepen.io/julianmintz/">julianmintz</a>
         </div>
         </div>

@@ -22,8 +22,9 @@ var weatherIcons = {
   951 : ['wi-strong-wind', '#ffff33', '#000000'] //breeze
 }
 
-$(document).ready(function() {
-  smoothAnimation = setTimeout(showPage, 6000);
+$("#retrieveWeather").click(function() {
+  document.getElementById("retrieveWeather").style.display = "none";
+  document.getElementById("loader").style.display = "block";
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
       var lat = "lat=" + position.coords.latitude;
@@ -34,12 +35,39 @@ $(document).ready(function() {
     console.log("Geolocation not available.")
   }
 
+function getWeather(lat, lon) {
+  let urlAPI = api + lat + "&" + lon;
+  let date = Date().split(" ");
+  $.ajax({
+      url: urlAPI,
+      success: function(data) {
+        $("#location").text(data.name + ", " + data.sys.country);
+        tempC = Math.round(data.main.temp);
+        $("#temperature").text(tempC);
+        $("#weather").text(data.weather[0].description);
+        $("#date").text(date[0] + " | " + date[1] + " " + date[2] + " | " + date[3])
+        iconId = data.weather[0].id;
+        if (/01d/.test(iconId)) {
+          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-day[0]);
+          $("body").css("background-color", weatherIcons.clear-day[1]);
+        } else if (/01n/.test(iconId)) {
+          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-night[0]);
+          $("body").css("background-color", weatherIcons.clear-night[1]);
+        } else {
+        changeColours(iconId);
+        smoothAnimation = setTimeout(showPage);
+      }
+      }
+    });
+}
+
 function showPage() {
   document.getElementById("loader").style.display = "none";
   document.getElementById("weatherBox").style.display = "block";
 }
 
-  $("#tempUnit").click(function() {
+
+  $("#tempReading").click(function() {
     $("#tempReading").fadeOut(0);
     $("#tempReading").fadeIn(500);
     var currentUnit = $("#tempUnit").text();
@@ -54,28 +82,6 @@ function showPage() {
   });
 })
 
-function getWeather(lat, lon) {
-  var urlAPI = api + lat + "&" + lon;
-  $.ajax({
-      url: urlAPI,
-      success: function(data) {
-        $("#location").text(data.name + ", " + data.sys.country);
-        tempC = Math.round(data.main.temp);
-        $("#temperature").text(tempC);
-        $("#weather").text(data.weather[0].description);
-        iconId = data.weather[0].id;
-        if (/01d/.test(iconId)) {
-          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-day[0]);
-          $("body").css("background-color", weatherIcons.clear-day[1]);
-        } else if (/01n/.test(iconId)) {
-          $("#weather-icon").removeClass().addClass("wi " + weatherIcons.clear-night[0]);
-          $("body").css("background-color", weatherIcons.clear-night[1]);
-        } else {
-        changeColours(iconId);
-      }
-      }
-    });
-}
 
 
 let changeColours = id => {
