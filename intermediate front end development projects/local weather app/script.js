@@ -6,24 +6,26 @@ var colours;
 //category: [icon, body colour, weather-info colour]
 var weatherIcons = {
   'clear-day' : ['wi-day-sunny', '#eee8cd', '#000000'],
-  'clear-night' : ['wi-night-clear', '#ffff33', '#000000'],
-  200 : ['wi-thunderstorm', '#ffff33', '#000000'], //thunderstorm
-  300 : ['wi-showers', '#ffff33', '#000000'], //drizzle
-  500 : ['wi-rain', '#ffff33', '#000000'], //rain
-  600 : ['wi-snow', '#e2e6e2', '#f1f3ec'], //snow
-  701 : ['wi-dust', '#ffff33', '#000000'], //atmosphere
-  800 : ['wi-day-sunny', '#ffff33', '#000000'], //clear
-  801 : ['wi-cloud', '#fffadc', '#bedcf5'], //clouds
-  900 : ['wi-tornado', '#ffff33', '#000000'], //tornado
-  901 : ['wi-hurricane', '#ffff33', '#000000'], //hurricane storm
-  903 : ['wi-snowflake-cold', '#ffff33', '#000000'], //extreme cold
-  904 : ['wi-hot', '#ffff33', '#000000'], //extreme hot
-  906 : ['wi-hail', '#ffff33', '#000000'], //hail
-  951 : ['wi-strong-wind', '#ffff33', '#000000'] //breeze
+  'clear-night' : ['wi-night-clear', '#05234d', '#7b88b8'],
+  200 : ['wi-thunderstorm', '#726da8', '#a0d2db'], //thunderstorm
+  300 : ['wi-showers', '#5a93c7', '#afcce1'], //drizzle
+  500 : ['wi-rain', '#93a4b0', '#8299a0'], //rain
+  600 : ['wi-snow', '#d2eaf9', '#effaff'], //snow
+  701 : ['wi-dust', '#d48381', '#e7c6ae'], //atmosphere
+  //800 : ['wi-day-sunny', '#ffff33', '#000000'], //clear
+  801 : ['wi-cloud', '#d0e2ed', '#dee8ef'], //clouds
+  900 : ['wi-tornado', '#8993a2', ' #bddac8'], //tornado
+  901 : ['wi-hurricane', '#5f8c96', '#83b7c7'], //hurricane storm
+  903 : ['wi-snowflake-cold', '#b2cef5', '#d2cef5'], //extreme cold
+  904 : ['wi-hot', '#f66f6f', '#ffc96d'], //extreme hot
+  906 : ['wi-hail', '#9adbcf', '#b9dfde '], //hail
+  951 : ['wi-strong-wind', '#a9e6cb', ' #aae7e8'] //breeze
 }
 
+//initialises ajax when button is clicked
 $("#retrieveWeather").click(function() {
   document.getElementById("retrieveWeather").style.display = "none";
+  $("#loader").fadeIn(500);
   document.getElementById("loader").style.display = "block";
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition(function(position) {
@@ -66,9 +68,7 @@ function showPage() {
   document.getElementById("weatherBox").style.display = "block";
 }
 
-
   $("#tempReading").click(function() {
-    $("#tempReading").fadeOut(0);
     $("#tempReading").fadeIn(500);
     var currentUnit = $("#tempUnit").text();
     var newUnit = currentUnit === "C" ? "F" : "C";
@@ -110,12 +110,12 @@ let changeColours = id => {
     $("#weather-icon").removeClass().addClass("wi " + colours[0]);
     $("body").css("background-color", colours[1]);
     $(".weather-info").css("background-color", colours[2]);
-  } else if  (id === 800) {
+  } /*else if  (id === 800) {
     colours = weatherIcons[Math.floor(id/800)*800];
     $("#weather-icon").removeClass().addClass("wi " + colours[0]);
     $("body").css("background-color", colours[1]);
     $(".weather-info").css("background-color", colours[2]);
-  } else if (id >=801 && id<=804) {
+  } */ else if (id >=801 && id<=804) {
     colours = weatherIcons[Math.floor(id/801)*801];
     $("#weather-icon").removeClass().addClass("wi " + colours[0]);
     $("body").css("background-color", colours[1]);
