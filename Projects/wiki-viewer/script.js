@@ -11,14 +11,26 @@ $(document).ready(function() {
   function processData(data) {
     console.log(data);
     for (i = 0; i < data[2].length; i++) {
-      $('#resultViewer').append("<h3>" +
-        data[1][i] + "</h3>" + data[2][i] + data[3][i])
+
+      $('#resultViewer').append(
+        '<div class="entry animate-bottom" style="display:block">' +
+        '<a href="'+ data[3][i] + '">' +
+        '<h3>' + data[1][i] + '</h3>' +
+        data[2][i] + '</a>' +
+        '</div>');
     }
-  };
+    $('.entry').fadeOut(0);
+    $('.entry').fadeIn(500);
+  }
 });
+
+
+
+
+
 
 $('input').keyup(function(event) { //pressing enter triggers api call
   if (event.keyCode == 13) {
-    $("#searchSubmit").click();
+    $('#searchSubmit').click();
   }
 });

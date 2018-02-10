@@ -1,21 +1,32 @@
 <html>
-<head>
-<meta charset="UTF-8">
+  <head>
+    <meta charset="UTF-8">
     <title>julianmintz' Wikipedia Viewer for freeCodeCamp</title>
     <!-- Custom fonts -->
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <!-- CSS
-    <link rel="stylesheet" href="./style.css"/>
-    <link rel="stylesheet" href="./bootstrap.min"/> -->
-</head>
-<body>
-<title>Wikipedia Viewer</title>
-<input id="searchString" value=""></input>
-<button id="searchSubmit"></button>
-<button id="randomPage"><a href ="https://en.wikipedia.org/wiki/Special:Random" target="_blank">Random</button></a>
-<div id="resultViewer"></div>
+    <!-- CSS -->
+    <link rel="stylesheet" href="style.css"/>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.1/css/bootstrap.min.css">
 
-<script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-<script src="./script.js"></script>
-</body>
+  </head>
+  <body id="bootstrap-overrides">
+    <h1>WIKIPEDIA VIEWER</h1>
+    <div class="container-fluid">
+      <div class="row">
+        <div class="col-sm">
+      <input id="searchString"  value="" placeholder="Search"></input>
+    </div>
+    <div class="col-sm">
+      <button id="searchSubmit" type="button" class="btn"><i class="fas fa-search"></i></button>
+    </div>
+    <div class="col-sm">
+      <button id="randomPage" type="button" class="btn"><a href ="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><i class="fas fa-random"></i></a></button>
+    </div>
+      <div id="resultViewer"></div>
+    </div>
+    <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
+    <script type="text/javascript" src="bootstrap.min.js"></script>
+    <script src="./script.js"></script>
+  </body>
+  <footer>
 </html>
