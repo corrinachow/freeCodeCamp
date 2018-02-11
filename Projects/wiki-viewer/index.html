@@ -11,17 +11,11 @@
   </head>
   <body id="bootstrap-overrides">
     <h1>WIKIPEDIA VIEWER</h1>
+    <p>Please enter your search criteria:</p>
     <div class="container-fluid">
-      <div class="row">
-        <div class="col-sm">
       <input id="searchString"  value="" placeholder="Search"></input>
-    </div>
-    <div class="col-sm">
-      <button id="searchSubmit" type="button" class="btn"><i class="fas fa-search"></i></button>
-    </div>
-    <div class="col-sm">
-      <button id="randomPage" type="button" class="btn"><a href ="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><i class="fas fa-random"></i></a></button>
-    </div>
+      <button id="searchSubmit" type="button"><i class="fas fa-search"></i></button>
+      <a href="https://en.wikipedia.org/wiki/Special:Random" target="_blank"><button id="randomPage" type="button"><i class="fas fa-random"></i></button></a>
       <div id="resultViewer"></div>
     </div>
     <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>

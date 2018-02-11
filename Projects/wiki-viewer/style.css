@@ -4,13 +4,10 @@
   font-size: 3em;
   color: black;
   text-shadow: 2px 2px 2px #ccc;
+  margin: 50px;
 }
 
-a {
-  text-decoration: none;
-}
-
-a:hover {
+a, a:hover {
   text-decoration: none !important;
 }
 
@@ -18,37 +15,46 @@ a:hover {
   color: #337AB7;
 }
 
+#randomPage:hover, #searchSubmit:hover {
+  color: #26537a;
+}
+
 #bootstrap-overrides {
   font-family: 'Crimson Text', serif;
-  color: #88898c;
   background-color: #e1e1e1;
   text-align: center;
 }
 
 #searchString {
-  border-radius: 5px;
+  margin-top: 5px;
+  width: 50%;
+  border-radius: 6px;
 }
 
-#searchString, #searchSubmit, #randomPage {
-  width: 30%;
-  margin: 5px;
+#searchSubmit, #randomPage {
+  height: 25px;
+  border-radius: 6px;
+  padding: 0px 15px;
+  box-shadow: 1px 1px #eee;
+  border-right-color: #eee;
+  border-bottom-color: #eee;
+  border-left: 1.5px solid #9a9a9a;
+  border-top: 1.5px solid #9a9a9a;
 }
 
 .entry {
   background-color: white;
   border-radius: 5px;
   border-left: solid;
-  margin: 50px;
+  margin: 10px;
   padding: 5px 10px 20px 10px;
   text-align: left;
 }
 
 .entry:hover {
   transition: all 0.5s;
-  border-left: solid rgba(255, 0, 0, .5);
   transform: scale(1.01);
 }
-
 
 .animate-bottom {
   position: relative;
