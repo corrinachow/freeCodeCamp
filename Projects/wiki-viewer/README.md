@@ -30,4 +30,5 @@ The app fulfills the following user stories:
 ## Learning Outcomes
 
 `$( ".entry" ).remove()` used to clear a previous query's results.
+
 `$('input').keyup()` detects Enter key to trigger click event.
