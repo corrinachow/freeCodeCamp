@@ -16,11 +16,18 @@ The app fulfills the following user stories:
 
 ## Live Demo
 
-TBD
+[CodePen](https://codepen.io/julianmintz/full/gvWpRb/)
 
 ## Tools
 
+- HTML
+- CSS
+- Bootstrap 3
+- Font Awesome
+-  jQuery library
 - Wikipedia API
 
 ## Learning Outcomes
 
+`$( ".entry" ).remove()` used to clear a previous query's results.
+`$('input').keyup()` detects Enter key to trigger click event.
