@@ -14,14 +14,14 @@ The app fulfills the following user stories:
 
 **Hint #2**: The relevant documentation about this API call is here: https://dev.twitch.tv/docs/v5/reference/streams/#get-stream-by-user.
 
-**Hint #3**: Here's an array of the Twitch.tv usernames of people who regularly stream: ["ESL_SC2", "OgamingSC2", "cretetion", "freecodecamp", "storbeck", "habathcx", "RobotCaleb", "noobs2ninjas"]
-
 ## Live Demo
 
-[TBA]()
+[CodePen](https://codepen.io/julianmintz/full/LQjdQo/)
 
 ## Tools
 
+- HTML5
+- CSS3
+- jQuery library
+- Bootstrap 3
 - Twitch.tv JSON API
-
-## Learning Outcomes
