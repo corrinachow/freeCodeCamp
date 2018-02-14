@@ -1,0 +1,50 @@
+html, body {
+  background: #6441a4;
+  font-family: helvetica;
+  font-size: 12px;
+}
+
+.container {
+  background: #6441a5;
+  width: 300px;
+  margin: 3% auto;
+}
+
+#header {
+  height: 80px;
+  margin: 10px;
+}
+
+.selector {
+  background: white;
+  padding: 20px;
+  text-align: center;
+  transition: all 1s;
+  }
+
+.selector:hover {
+  background: #b9a3e3;
+  }
+
+.channel {
+  background: white;
+  padding: 5px auto;
+}
+
+.channel:hover{
+  background: red;
+}
+
+.online {
+ display: block;
+}
+
+.offline {
+ display: block;
+}
+
+.logo {
+  height: 50px;
+  width: 50px;
+  border-radius: 50%;
+}

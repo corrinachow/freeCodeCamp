@@ -6,18 +6,25 @@
     <!-- Custom fonts -->
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
     <!-- CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
     <link rel="stylesheet" href="style.css"/>
   </head>
   <body>
-    <h1>Twitch TV</h1>
+    <div class="text-center">
+    <img id="header" src="./Twitch_White_RGB.png" >
+  </div>
     <div class="container">
+    <div id="menu" class="row">
+      <div class="selector col-xs-4" id="all">All</div>
+      <div class="selector col-xs-4" id="online">Online</div>
+      <div class="selector col-xs-4" id="offline">Offline</div>
+    </div>
         <div id="viewer">
-
         </div>
-
     </div>
     <script src="http://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
+    <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="./script.js"></script>
   </body>
   <footer>
 </html>

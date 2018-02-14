@@ -1,4 +1,4 @@
-var channels = ["freecodecamp", "ESL_SC2"]//, "cretetion", "OgamingSC2", "storbeck", "RobotCaleb", "noobs2ninjas"];
+var channels = ["freecodecamp", "ESL_SC2", "cretetion", "OgamingSC2", "storbeck", "RobotCaleb", "noobs2ninjas"];
 
 $(document).ready(function() {
   channels.forEach(channel => {
@@ -8,38 +8,33 @@ $(document).ready(function() {
     $.getJSON(getChannelStatus('streams', channel), data => {
       var status,
         game;
-      console.log(data);
       if (data.stream === null || data.stream === undefined) {
-        status = 'Offline';
-        game = 'Offline';
+        status = 'offline';
+        game = 'offline';
       } else {
-        status = 'Online';
+        status = 'online';
         game = data.stream.game;
       }
-      console.log(channel + status + game);
 
       $.getJSON(getChannelStatus('channels', channel), data => {
-        var html = '<div class="channel '+ status +'"><a href="' + data.url + ' "target="_blank">'; //makes entire div into link, assigns online/offline status
-
-        var logoURL = data.logo != null ? data.logo : 'https://static-cdn.jtvnw.net/user-default-pictures/bb97f7e6-f11a-4194-9708-52bf5a5125e8-profile_image-300x300.jpg';
-        html += '<p>'+ channel +'</p><img src="' + logoURL + '">';
-
-        if (status === 'Offline') {
-          html += '<p>' + status + '</p>';
-        } else {
-          html += '<p>' + game + ': ' + data.status + '</p>'
-        }
-
-        html += '</a></div>' //closes div.channel
-        console.log(html)
-        console.table(data);
-        $('#viewer').append(html);
+        var logoURL = data.logo != null ? data.logo : 'https://static-cdn.jtvnw.net/user-default-pictures/bb97f7e6-f11a-4194-9708-52bf5a5125e8-profile_image-300x300.jpg',
+        name = data.display_name != null ? data.display_name : channel,
+        description = status == 'online' ? ': ' + data.status : '';
+        var html = '<div class="row channel ' + status + '"><div class="col-xs-2 col-sm-3 text-center" id="logo"><img src="' + logoURL + '" class="logo"></div><div class="col-xs-10 col-sm-8 name" id="name"><a href="' + data.url + '" target="_blank">' + name + '</a></div><div class="col-xs-10 col-sm-8 game" id="streaming">' + game + '<span class="hidden-xs">' + description + '</span></div></div>';
+        status === 'online' ? $('#viewer').prepend(html) : $('#viewer').append(html);
       });
     });
-
   });
+});
 
-  //where channels.forEach(channel ...) ends
-
-
+$('.selector').on('click', function() {
+  if (this.id == 'online') {
+    $('.online').fadeIn(500);
+    $('.offline').fadeOut(500);
+  } else if (this.id == 'offline') {
+    $('.online').fadeOut(500);
+    $('.offline').fadeIn(500);
+  } else if (this.id == 'all') {
+    $('.channel').fadeIn(500);
+  }
 });
