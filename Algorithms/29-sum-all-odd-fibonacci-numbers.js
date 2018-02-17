@@ -8,13 +8,5 @@ while (val[1] <= num){
   val[1] = val[0] + val[1];
   val[0] = temp;
 }
-
-
-
 return total;
-
 }
-
-console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-console.log(sumFibs(4000000));
-console.log("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
