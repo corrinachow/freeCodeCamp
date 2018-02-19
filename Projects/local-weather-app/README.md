@@ -6,7 +6,7 @@ A response to [freeCodeCamp](https://www.freecodecamp.org/)'s [Show the Local We
 
 ## Live Demo
 
-[CodePen](https://codepen.io/julianmintz/full/KQgQGE/)
+[CodePen](https://codepen.io/corrinachow/full/KQgQGE/)
 
 ## Tools
 

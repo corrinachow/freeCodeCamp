@@ -16,7 +16,7 @@ The app fulfills the following user stories:
 
 ## Live Demo
 
-[CodePen](https://codepen.io/julianmintz/full/gvWpRb/)
+[CodePen](https://codepen.io/corrinachow/full/gvWpRb/)
 
 ## Tools
 

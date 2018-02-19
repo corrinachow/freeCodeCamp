@@ -4,7 +4,7 @@ This app will randomly display a quote using Forismatic API.  You are given the 
 
 ## Live Demo
 
-[CodePen](https://codepen.io/julianmintz/full/WMQBbq/)
+[CodePen](https://codepen.io/corrinachow/full/WMQBbq/)
 
 ## Tools
 - HTML5
