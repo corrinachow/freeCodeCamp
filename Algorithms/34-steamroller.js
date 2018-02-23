@@ -6,4 +6,3 @@ function steamrollArray(arr) {
     else return parseInt(entry);
     });
 }
-

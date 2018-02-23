@@ -1,4 +1,3 @@
-
 function truncateString(str, num) {
   console.log(str);
   if (num <= 3) {
