@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import math from 'mathjs'
 import './index.css';
 
 class Frame extends React.Component {
@@ -7,8 +8,10 @@ class Frame extends React.Component {
     super();
     //set default state
     this.state = {
+      operation: [],
       equation: '',
       answer: '',
+      temp: null
     }
     //bind handleClick method to buttons
     this.handleClick = this.handleClick.bind(this);
@@ -21,60 +24,53 @@ class Frame extends React.Component {
         </div>
         <Screen equation={this.state.equation} answer={this.state.answer}/>
         <div className='button-row'>
-          <Button label={'('} handleClick={this.handleClick} type='input' />
-          <Button label={')'} handleClick={this.handleClick} type='input' />
-          <Button label={'%'} handleClick={this.handleClick} type='action' />
-          <Button label={'C'} handleClick={this.handleClick} type='input' />
+          <Button label='1' handleClick={this.handleClick} type='digit' />
+          <Button label='2' handleClick={this.handleClick} type='digit' />
+          <Button label='3' handleClick={this.handleClick} type='digit' />
+          <Button label='+' handleClick={this.handleClick} type='operator' />
         </div>
         <div className='button-row'>
-          <Button label={'1'} handleClick={this.handleClick} type='input' />
-          <Button label={'2'} handleClick={this.handleClick} type='input' />
-          <Button label={'3'} handleClick={this.handleClick} type='input' />
-          <Button label={'+'} handleClick={this.handleClick} type='action' />
+          <Button label='4' handleClick={this.handleClick} type='digit' />
+          <Button label='5' handleClick={this.handleClick} type='digit' />
+          <Button label='6' handleClick={this.handleClick} type='digit' />
+          <Button label='-' handleClick={this.handleClick} type='operator' />
         </div>
         <div className='button-row'>
-          <Button label={'4'} handleClick={this.handleClick} type='input' />
-          <Button label={'5'} handleClick={this.handleClick} type='input' />
-          <Button label={'6'} handleClick={this.handleClick} type='input' />
-          <Button label={'-'} handleClick={this.handleClick} type='action' />
+          <Button label='7' handleClick={this.handleClick} type='digit' />
+          <Button label='8' handleClick={this.handleClick} type='digit' />
+          <Button label='9' handleClick={this.handleClick} type='digit' />
+          <Button label={'*'} handleClick={this.handleClick} type='operator' />
         </div>
         <div className='button-row'>
-          <Button label={'7'} handleClick={this.handleClick} type='input' />
-          <Button label={'8'} handleClick={this.handleClick} type='input' />
-          <Button label={'9'} handleClick={this.handleClick} type='input' />
-          <Button label={'*'} handleClick={this.handleClick} type='action' />
-        </div>
-        <div className='button-row'>
-          <Button label={'.'} handleClick={this.handleClick} type='input' />
-          <Button label={'0'} handleClick={this.handleClick} type='input' />
-          <Button label={'='} handleClick={this.handleClick} type='equals' />
-          <Button label={'/'} handleClick={this.handleClick} type='action'/>
+          <Button label='C' handleClick={this.handleClick} type='clear' />
+          <Button label='0' handleClick={this.handleClick} type='digit' />
+          <Button label='=' handleClick={this.handleClick} type='equals' />
+          <Button label='/' handleClick={this.handleClick} type='operator'/>
         </div>
       </div>
     );
   }
 
   //handle click events from buttons
-  handleClick(event) {
-    const value = event.target.value //gets value from target element
-    //const lastChar = (this.state.equation).charAt((this.state.equation).length - 1)
-    console.log(this.state.equation)
-    console.log(value)
-    //console.log(this.state.equation)
+  handleClick(e) {
+    const value = e.target.value; //Gets value from target element
+    const buttonClass = e.target.className;
 
-  switch(true) {
-    case value === 'C' :
-      this.setState({ equation: '', answer: ''});
+    switch (buttonClass) {
+      case 'clear' :
+      this.setState(this.state);
       break;
-    case (event.target.className.includes('input')) :
-      this.setState({ equation: this.state.equation += value});
-    case (/\d\D$/g.test(this.state.equation)) :
-      this.setState({equation: this.state.equation.replace(/.$/ , value)})
+      case 'equals' :
+      let answer = math.eval(this.state.equation);
+      this.setState({ answer, temp: answer, equation: ''});
       break;
-    case '=' : //if it's an equal sign, evaluate the string}
-      const answer = eval(this.state.equation).toString();
-      this.setState({ answer, equation:'' });
+      case 'digit' :
+      this.setState({ equation: this.state.equation += value, temp: null });
       break;
+      case 'operator' :
+      this.setState(parseInt(this.state.temp) ? {equation: this.state.temp += value, temp: null} :
+      this.setState(/\d\D$/g.test(this.state.equation) ? {equation: this.state.equation.replace(/.$/ , value)} :
+        {equation : this.state.equation += value, lastOp: value}));
     }
   }
 }
@@ -93,13 +89,12 @@ const Button = (props) => {
   return (
     <input
       type='button'
-      className={props.type === 'action' ? 'button action-button' : 'button input-button'}
+      className={props.type}
       onClick={props.handleClick}
       value={props.label}
     />
   );
 }
-
 
 //the Screen components displays two screen rows, 1 is the equation, 2 is the answer
 const Screen = (props) => {
