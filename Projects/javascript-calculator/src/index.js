@@ -3,112 +3,144 @@ import ReactDOM from 'react-dom';
 import math from 'mathjs'
 import './index.css';
 
-class Frame extends React.Component {
-  constructor() {
-    super();
-    //set default state
-    this.state = {
-      operation: [],
-      equation: '',
-      answer: '',
-      temp: null
+class Calculator extends React.Component {
+  state = {
+    value: null,
+    displayValue: '0',
+    waitingForOperand: false,
+    operator: null
+  };
+
+  inputDigit(digit) {
+    const { displayValue, waitingForOperand } = this.state
+
+    if (waitingForOperand) {
+      this.setState ({
+        displayValue: String(digit),
+        waitingForOperand: false
+      })
+    } else {
+      this.setState({
+        displayValue: displayValue === '0' ? String(digit) : displayValue + digit
+      })
     }
-    //bind handleClick method to buttons
-    this.handleClick = this.handleClick.bind(this);
   }
+
+  inputDot() {
+    const { displayValue, waitingForOperand } = this.state
+
+    if (waitingForOperand) {
+      this.setState({
+        displayValue: '.',
+        waitingForOperand: false
+      })
+    } else if(displayValue.indexOf('.') === -1) {
+      this.setState({
+        displayValue: displayValue + '.',
+        waitingForOperand: false
+      })
+    }
+  }
+
+  clearDisplay() {
+    this.setState({
+      displayValue: '0'
+    })
+  }
+
+  toggleSign() {
+    const { displayValue } = this.state
+
+    this.setState({
+      displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue
+    })
+  }
+
+  inputPercent() {
+    const { displayValue } = this.state
+    const value = parseFloat(displayValue)
+
+    this.setState({
+      displayValue: String(value/100)
+    })
+  }
+
+  performOperation(nextOperator) {
+    const { displayValue, operator, value } = this.state;
+    const nextValue = parseFloat(displayValue);
+
+    const operations = {
+      '/': (prevValue, nextValue) => prevValue / nextValue,
+      '*': (prevValue, nextValue) => prevValue * nextValue,
+      '-': (prevValue, nextValue) => prevValue - nextValue,
+      '+': (prevValue, nextValue) => prevValue + nextValue,
+      '=': (prevValue, nextValue) => nextValue
+    };
+
+    if (value == null) {
+      this.setState({
+        value: nextValue
+      })
+    } else if (operator) {
+      const currentValue = value || 0
+      const computedValue = operations[operator](currentValue, nextValue)
+
+      this.setState({
+        value: computedValue,
+        displayValue: String(computedValue)
+      })
+    }
+
+    this.setState({
+      waitingForOperand: true,
+      operator: nextOperator
+    })
+
+  }
+
   render() {
+    const {displayValue} = this.state
     return (
-      <div className='frame'>
-        <div className='calculator-title'>
-          Calculator
-        </div>
-        <Screen equation={this.state.equation} answer={this.state.answer}/>
-        <div className='button-row'>
-          <Button label='1' handleClick={this.handleClick} type='digit' />
-          <Button label='2' handleClick={this.handleClick} type='digit' />
-          <Button label='3' handleClick={this.handleClick} type='digit' />
-          <Button label='+' handleClick={this.handleClick} type='operator' />
-        </div>
-        <div className='button-row'>
-          <Button label='4' handleClick={this.handleClick} type='digit' />
-          <Button label='5' handleClick={this.handleClick} type='digit' />
-          <Button label='6' handleClick={this.handleClick} type='digit' />
-          <Button label='-' handleClick={this.handleClick} type='operator' />
-        </div>
-        <div className='button-row'>
-          <Button label='7' handleClick={this.handleClick} type='digit' />
-          <Button label='8' handleClick={this.handleClick} type='digit' />
-          <Button label='9' handleClick={this.handleClick} type='digit' />
-          <Button label={'*'} handleClick={this.handleClick} type='operator' />
-        </div>
-        <div className='button-row'>
-          <Button label='C' handleClick={this.handleClick} type='clear' />
-          <Button label='0' handleClick={this.handleClick} type='digit' />
-          <Button label='=' handleClick={this.handleClick} type='equals' />
-          <Button label='/' handleClick={this.handleClick} type='operator'/>
+      <div className="calculator">
+        <div className="calculator-display">{displayValue}</div>
+        <div className="calculator-keypad">
+          <div className="input-keys">
+            <div className="function-keys">
+              <button className="calculator-key key-clear" onClick={() => this.clearDisplay()}>AC</button>
+              <button className="calculator-key key-sign" onClick={() => this.toggleSign()}>±</button>
+              <button className="calculator-key key-percent" onClick={() => this.inputPercent()}>%</button>
+            </div>
+            <div className="digit-keys">
+              <button className="calculator-key key-0" onClick={() => this.inputDigit(0)}>0</button>
+              <button className="calculator-key key-dot" onClick={() => this.inputDot()}>●</button>
+              <button className="calculator-key key-1" onClick={() => this.inputDigit(1)}>1</button>
+              <button className="calculator-key key-2" onClick={() => this.inputDigit(2)}>2</button>
+              <button className="calculator-key key-3" onClick={() => this.inputDigit(3)}>3</button>
+              <button className="calculator-key key-4" onClick={() => this.inputDigit(4)}>4</button>
+              <button className="calculator-key key-5" onClick={() => this.inputDigit(5)}>5</button>
+              <button className="calculator-key key-6" onClick={() => this.inputDigit(6)}>6</button>
+              <button className="calculator-key key-7" onClick={() => this.inputDigit(7)}>7</button>
+              <button className="calculator-key key-8" onClick={() => this.inputDigit(8)}>8</button>
+              <button className="calculator-key key-9" onClick={() => this.inputDigit(9)}>9</button>
+            </div>
+          </div>
+          <div className="operator-keys">
+            <button className="calculator-key key-divide" onClick={() => this.performOperation('/')}>÷</button>
+            <button className="calculator-key key-multiply" onClick={() => this.performOperation('*')}>×</button>
+            <button className="calculator-key key-subtract" onClick={() => this.performOperation('-')}>−</button>
+            <button className="calculator-key key-add" onClick={() => this.performOperation('+')}>+</button>
+            <button className="calculator-key key-equals"onClick={() => this.performOperation('=')}>=</button>
+          </div>
         </div>
       </div>
-    );
-  }
-
-  //handle click events from buttons
-  handleClick(e) {
-    const value = e.target.value; //Gets value from target element
-    const buttonClass = e.target.className;
-
-    switch (buttonClass) {
-      case 'clear' :
-      this.setState(this.state);
-      break;
-      case 'equals' :
-      let answer = math.eval(this.state.equation);
-      this.setState({ answer, temp: answer, equation: ''});
-      break;
-      case 'digit' :
-      this.setState({ equation: this.state.equation += value, temp: null });
-      break;
-      case 'operator' :
-      this.setState(parseInt(this.state.temp) ? {equation: this.state.temp += value, temp: null} :
-      this.setState(/\d\D$/g.test(this.state.equation) ? {equation: this.state.equation.replace(/.$/ , value)} :
-        {equation : this.state.equation += value, lastOp: value}));
-    }
+    )
   }
 }
 
-//screenRow is written as a functional component
-//it receives displays (in an input field) a props (property) of value from its parent component
-const ScreenRow = (props) => {
-  return (
-    <div className='screen-row'>
-      <input type='text' readOnly value={props.value}/>
-    </div>
-  );
-}
-
-const Button = (props) => {
-  return (
-    <input
-      type='button'
-      className={props.type}
-      onClick={props.handleClick}
-      value={props.label}
-    />
-  );
-}
-
-//the Screen components displays two screen rows, 1 is the equation, 2 is the answer
-const Screen = (props) => {
-  return (
-    <div className="screen">
-      <ScreenRow value={props.equation}/>
-      <ScreenRow value={props.answer}/>
-    </div>
-  );
-}
 
 // ========================================
 
 ReactDOM.render(
-  <Frame />,
+  <Calculator />,
   document.getElementById('root')
 );
