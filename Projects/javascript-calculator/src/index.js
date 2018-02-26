@@ -17,9 +17,10 @@ class Calculator extends React.Component {
     console.log(displayValue.length)
     console.log(displayEquation.length)
 
-    if (displayValue.length > 12) {
+    if (displayValue.length > 8 || displayEquation.length > 15) {
       this.setState({
-        displayValue: 'char limit exceeded'
+        displayValue: '0',
+        displayEquation: 'char limit exceeded'
       })
     }
 
@@ -67,21 +68,18 @@ class Calculator extends React.Component {
   }
 
   clearEntry(){
-    const { displayEquation, displayValue } = this.state;
+    const { displayEquation, displayValue, value } = this.state;
 
     this.setState({
       displayValue: '0',
-      displayEquation: displayValue === '0' ? displayEquation : displayEquation.slice(0, -displayValue.length)
+      displayEquation: value ? value : '0'
     });
   }
 
   toggleSign() {
     const { displayValue, displayEquation } = this.state
 
-    if (displayValue === '0') {
-      this.setState({
-        displayValue: '0',
-      })
+    if (displayValue === '0' || displayEquation.includes('char')) {
     } else {
       this.setState({
         displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue,
@@ -94,10 +92,13 @@ class Calculator extends React.Component {
     const { displayValue, displayEquation } = this.state
     const value = parseFloat(displayValue);
 
-    this.setState({
-      displayValue: String(value/100),
-      displayEquation: displayEquation.slice(0, -displayValue.length) + String(value/100)
-    })
+    if (displayEquation.includes('char')) {
+    } else {
+      this.setState({
+        displayValue: String(value/100),
+        displayEquation: displayEquation.slice(0, -displayValue.length) + String(value/100)
+      })
+    }
   }
 
   performOperation(nextOperator) {
