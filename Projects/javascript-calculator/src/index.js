@@ -17,9 +17,9 @@ class Calculator extends React.Component {
 
     if (waitingForOperand) {
       this.setState ({
-        displayEquation: displayEquation == value ? String(digit) : displayEquation + String(digit),
+        displayEquation: displayEquation.includes('=') ? String(digit) : displayEquation + String(digit),
         displayValue: String(digit),
-        waitingForOperand: false
+        waitingForOperand: false,
       })
     } else {
       this.setState({
@@ -83,7 +83,7 @@ class Calculator extends React.Component {
   }
 
   performOperation(nextOperator) {
-    const { displayValue, operator, value, displayEquation, temp } = this.state;
+    const { displayValue, operator, value, displayEquation, temp, waitingForOperand } = this.state;
     const nextValue = parseFloat(displayValue);
 
     const operations = {
@@ -98,21 +98,20 @@ class Calculator extends React.Component {
       this.setState({
         value: nextValue,
         displayEquation: nextOperator === '=' ? displayEquation : displayEquation + nextOperator,
-        temp: displayEquation + nextOperator,
+        //temp: displayEquation + nextOperator
       })
-    } else if (operator) {
-      const currentValue = value || 0
-      const computedValue = operations[operator](currentValue, nextValue)
-
+    } else if (operator && !waitingForOperand) {
+      const currentValue = value || 0;
+      const computedValue = operations[operator](currentValue, nextValue);
       this.setState({
         value: computedValue,
-        displayValue: String(computedValue),
-        temp: nextOperator != '=' ? displayEquation + nextOperator: displayEquation + '=',
-        displayEquation: nextOperator === '=' ? computedValue : computedValue + nextOperator,
+        displayValue: computedValue,
+        //displayEquation: /[+-/*=]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation + nextOperator,
       })
     }
 
     this.setState({
+      displayEquation: /[+-/*=]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation + nextOperator,
       waitingForOperand: true,
       operator: nextOperator
     })
@@ -120,14 +119,12 @@ class Calculator extends React.Component {
   }
 
   render() {
-    const {displayValue} = this.state
-    const {displayEquation} = this.state
-    const {temp} = this.state
+    const {displayValue, displayEquation, temp} = this.state
     return (
       <div className="calculator">
-        <div className="calculator-temp">{temp}</div>
-        <div className="calculator-display">{displayValue}</div>
+        {/*<div className="calculator-display">{temp}</div>*/}
         <div className="calculator-display">{displayEquation}</div>
+        <div className="calculator-display">{displayValue}</div>
         <div className="calculator-keypad">
           <div className="input-keys">
             <div className="function-keys">
