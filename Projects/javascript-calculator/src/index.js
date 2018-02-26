@@ -9,15 +9,12 @@ class Calculator extends React.Component {
     waitingForOperand: false,
     operator: null,
     displayEquation: '0',
+    temp: ''
   };
 
   inputDigit(digit) {
     const { displayValue, waitingForOperand, displayEquation } = this.state;
-
-    console.log(displayValue.length)
-    console.log(displayEquation.length)
-
-    if (displayValue.length > 8 || displayEquation.length > 15) {
+    if (displayValue.length > 8 ) {
       this.setState({
         displayValue: '0',
         displayEquation: 'char limit exceeded'
@@ -63,7 +60,7 @@ class Calculator extends React.Component {
       waitingForOperand: false,
       operator: null,
       displayEquation: '0',
-      temp: '0'
+      temp: ''
     })
   }
 
@@ -77,9 +74,9 @@ class Calculator extends React.Component {
   }
 
   toggleSign() {
-    const { displayValue, displayEquation } = this.state
+    const { displayValue, displayEquation, waitingForOperand } = this.state
 
-    if (displayValue === '0' || displayEquation.includes('char')) {
+    if (displayValue === '0' || displayEquation.includes('char') || waitingForOperand) {
     } else {
       this.setState({
         displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue,
@@ -117,7 +114,7 @@ class Calculator extends React.Component {
       this.setState({
         value: nextValue,
         displayEquation: nextOperator === '=' ? displayEquation : displayEquation + nextOperator,
-        //temp: displayEquation + nextOperator
+        //temp: temp + displayEquation
       })
     } else if (operator && !waitingForOperand) {
       const currentValue = value || 0;
@@ -125,11 +122,12 @@ class Calculator extends React.Component {
       this.setState({
         value: computedValue,
         displayValue: computedValue,
+        //temp: displayEquation
       })
     }
 
     this.setState({
-      displayEquation: /[+-/*=]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation + nextOperator,
+      displayEquation: /[+-/*]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation.includes('=') ? value + nextOperator: displayEquation + nextOperator,
       waitingForOperand: true,
       operator: nextOperator
     })
@@ -137,10 +135,9 @@ class Calculator extends React.Component {
   }
 
   render() {
-    const {displayValue, displayEquation, temp} = this.state
+    const {displayValue, displayEquation} = this.state
     return (
       <div className="calculator">
-        {/*<div className="calculator-display">{temp}</div>*/}
         <div className="calculator-display">{displayEquation}</div>
         <div className="calculator-display">{displayValue}</div>
         <div className="calculator-keypad">
@@ -173,7 +170,9 @@ class Calculator extends React.Component {
             <button className="calculator-key key-equals"onClick={() => this.performOperation('=')}>=</button>
           </div>
         </div>
+        {/*<div className="memory">{temp}</div>*/}
       </div>
+
     )
   }
 }
