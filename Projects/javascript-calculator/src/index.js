@@ -89,12 +89,13 @@ class Calculator extends React.Component {
   inputPercent() {
     const { displayValue, displayEquation } = this.state
     const value = parseFloat(displayValue);
+    const displayIndex = displayEquation.slice(0, displayEquation.indexOf(displayValue))
 
     if (displayEquation.includes('char')) {
     } else {
       this.setState({
         displayValue: String(value/100),
-        displayEquation: displayEquation.slice(0, -displayValue.length) + String(value/100)
+        displayEquation: displayEquation.includes(')') ? displayIndex + String(value/100) + ')' : displayIndex + + String(value/100)
       })
     }
   }
@@ -124,7 +125,6 @@ class Calculator extends React.Component {
         value: computedValue,
         displayValue: computedValue,
         displayEquation: nextOperator === '=' ? displayEquation + nextOperator :computedValue + nextOperator
-        //temp: displayEquation
       })
     } else {
       this.setState({
