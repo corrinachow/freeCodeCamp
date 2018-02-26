@@ -9,13 +9,21 @@ class Calculator extends React.Component {
     waitingForOperand: false,
     operator: null,
     displayEquation: '0',
-    temp: '0'
   };
 
   inputDigit(digit) {
-    const { displayValue, waitingForOperand, displayEquation, value } = this.state
+    const { displayValue, waitingForOperand, displayEquation } = this.state;
 
-    if (waitingForOperand) {
+    console.log(displayValue.length)
+    console.log(displayEquation.length)
+
+    if (displayValue.length > 12) {
+      this.setState({
+        displayValue: 'char limit exceeded'
+      })
+    }
+
+    else if (waitingForOperand) {
       this.setState ({
         displayEquation: displayEquation.includes('=') ? String(digit) : displayEquation + String(digit),
         displayValue: String(digit),
@@ -69,6 +77,7 @@ class Calculator extends React.Component {
 
   toggleSign() {
     const { displayValue, displayEquation } = this.state
+
     if (displayValue === '0') {
       this.setState({
         displayValue: '0',
@@ -92,7 +101,7 @@ class Calculator extends React.Component {
   }
 
   performOperation(nextOperator) {
-    const { displayValue, operator, value, displayEquation, temp, waitingForOperand } = this.state;
+    const { displayValue, operator, value, displayEquation, waitingForOperand } = this.state;
     const nextValue = parseFloat(displayValue);
 
     const operations = {
@@ -115,7 +124,6 @@ class Calculator extends React.Component {
       this.setState({
         value: computedValue,
         displayValue: computedValue,
-        //displayEquation: /[+-/*=]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation + nextOperator,
       })
     }
 
