@@ -14,7 +14,7 @@ class Calculator extends React.Component {
 
   inputDigit(digit) {
     const { displayValue, waitingForOperand, displayEquation } = this.state;
-    if (displayValue.length > 8 ) {
+    if (displayValue.length > 8 || displayEquation.length > 15) {
       this.setState({
         displayValue: '0',
         displayEquation: 'char limit exceeded'
@@ -69,7 +69,8 @@ class Calculator extends React.Component {
 
     this.setState({
       displayValue: '0',
-      displayEquation: value ? value : '0'
+      displayEquation: value ? value : '0',
+      operator: null
     });
   }
 
@@ -122,16 +123,19 @@ class Calculator extends React.Component {
       this.setState({
         value: computedValue,
         displayValue: computedValue,
+        displayEquation: nextOperator === '=' ? displayEquation + nextOperator :computedValue + nextOperator
         //temp: displayEquation
       })
+    } else {
+      this.setState({
+        displayEquation: /[+-/*]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation.includes('=') ? value + nextOperator : displayEquation + nextOperator,
+        value: displayValue,
+      });
     }
-
     this.setState({
-      displayEquation: /[+-/*]$/.test(displayEquation) ? displayEquation.replace(/[+-/*=]$/, nextOperator) : displayEquation.includes('=') ? value + nextOperator: displayEquation + nextOperator,
       waitingForOperand: true,
       operator: nextOperator
     })
-
   }
 
   render() {
