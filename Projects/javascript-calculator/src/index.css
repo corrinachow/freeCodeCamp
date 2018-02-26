@@ -59,7 +59,7 @@ button:active {
   background: #1c191c;
   line-height: 130px;
   font-size: 6em;
-
+  text-align: right;
   flex: 1;
 }
 

@@ -1,6 +1,5 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import math from 'mathjs'
 import './index.css';
 
 class Calculator extends React.Component {
@@ -8,35 +7,41 @@ class Calculator extends React.Component {
     value: null,
     displayValue: '0',
     waitingForOperand: false,
-    operator: null
+    operator: null,
+    displayEquation: '0',
+    temp: '0'
   };
 
   inputDigit(digit) {
-    const { displayValue, waitingForOperand } = this.state
+    const { displayValue, waitingForOperand, displayEquation, value } = this.state
 
     if (waitingForOperand) {
       this.setState ({
+        displayEquation: displayEquation == value ? String(digit) : displayEquation + String(digit),
         displayValue: String(digit),
         waitingForOperand: false
       })
     } else {
       this.setState({
-        displayValue: displayValue === '0' ? String(digit) : displayValue + digit
+        displayValue: displayValue === '0' ? String(digit) : displayValue + digit,
+        displayEquation: displayEquation === '0' ? String(digit) : displayEquation + digit,
       })
     }
   }
 
   inputDot() {
-    const { displayValue, waitingForOperand } = this.state
+    const { displayValue, waitingForOperand, displayEquation } = this.state
 
     if (waitingForOperand) {
       this.setState({
         displayValue: '.',
+        displayEquation: displayEquation + '.',
         waitingForOperand: false
       })
     } else if(displayValue.indexOf('.') === -1) {
       this.setState({
         displayValue: displayValue + '.',
+        displayEquation: displayEquation + '.',
         waitingForOperand: false
       })
     }
@@ -44,29 +49,41 @@ class Calculator extends React.Component {
 
   clearDisplay() {
     this.setState({
-      displayValue: '0'
+      value: null,
+      displayValue: '0',
+      waitingForOperand: false,
+      operator: null,
+      displayEquation: '0',
+      temp: '0'
     })
   }
 
   toggleSign() {
-    const { displayValue } = this.state
-
-    this.setState({
-      displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue
-    })
+    const { displayValue, displayEquation } = this.state
+    if (displayValue === '0') {
+      this.setState({
+        displayValue: '0',
+      })
+    } else {
+      this.setState({
+        displayValue: displayValue.charAt(0) === '-' ? displayValue.substr(1) : '-' + displayValue,
+        displayEquation: displayValue.charAt(0) === '-' ? displayEquation.length > displayValue.length ? displayEquation.slice(0, -(displayValue.length + 2)) + displayValue.substr(1) : displayValue.substr(1) : displayEquation.slice(0, -displayValue.length) + '(-' + displayValue + ')',
+      })
+    }
   }
 
   inputPercent() {
-    const { displayValue } = this.state
-    const value = parseFloat(displayValue)
+    const { displayValue, displayEquation } = this.state
+    const value = parseFloat(displayValue);
 
     this.setState({
-      displayValue: String(value/100)
+      displayValue: String(value/100),
+      displayEquation: displayEquation.slice(0, -displayValue.length) + String(value/100)
     })
   }
 
   performOperation(nextOperator) {
-    const { displayValue, operator, value } = this.state;
+    const { displayValue, operator, value, displayEquation, temp } = this.state;
     const nextValue = parseFloat(displayValue);
 
     const operations = {
@@ -79,7 +96,9 @@ class Calculator extends React.Component {
 
     if (value == null) {
       this.setState({
-        value: nextValue
+        value: nextValue,
+        displayEquation: nextOperator === '=' ? displayEquation : displayEquation + nextOperator,
+        temp: displayEquation + nextOperator,
       })
     } else if (operator) {
       const currentValue = value || 0
@@ -87,7 +106,9 @@ class Calculator extends React.Component {
 
       this.setState({
         value: computedValue,
-        displayValue: String(computedValue)
+        displayValue: String(computedValue),
+        temp: nextOperator != '=' ? displayEquation + nextOperator: displayEquation + '=',
+        displayEquation: nextOperator === '=' ? computedValue : computedValue + nextOperator,
       })
     }
 
@@ -100,9 +121,13 @@ class Calculator extends React.Component {
 
   render() {
     const {displayValue} = this.state
+    const {displayEquation} = this.state
+    const {temp} = this.state
     return (
       <div className="calculator">
+        <div className="calculator-temp">{temp}</div>
         <div className="calculator-display">{displayValue}</div>
+        <div className="calculator-display">{displayEquation}</div>
         <div className="calculator-keypad">
           <div className="input-keys">
             <div className="function-keys">
