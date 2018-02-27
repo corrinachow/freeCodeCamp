@@ -12,7 +12,7 @@ The app fulfills the following user stories:
 
 ## Live Demo
 
-TBA
+[CodePen](https://codepen.io/corrinachow/full/VQVjPE/)
 
 ## Tools
 
