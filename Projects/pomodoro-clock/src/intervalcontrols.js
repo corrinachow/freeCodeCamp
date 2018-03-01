@@ -54,7 +54,6 @@ class IntervalSettings extends React.Component {
   render() {
     return (
       <div className="interval-settings">
-      <div className="time">{this.state.workInterval}:00</div>
       <div className="work-interval">
         <button onClick={this.workIncrease}>^</button>
         <input type="number" value={this.state.workInterval} onChange={this.workChange}></input>

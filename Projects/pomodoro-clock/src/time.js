@@ -2,7 +2,7 @@ import React from 'react';
 
 const Time = (props) => {
   return (
-    <span className="time"></span>
+    <span className="time">{`${props.minutes}:${props.seconds}`}</span>
   )
 }
 
