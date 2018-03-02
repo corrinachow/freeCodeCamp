@@ -11,32 +11,31 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      phase: 'Start',
-      timeRemaining: this.getTimeRemaining(1500000),//default 25 min
+      phase: 'Work',
+      status: 'Start',
+      timeRemaining: this.getTimeRemaining(1000),//default 25 min
       timeElapsed: null,
       workTime: 1500000,
       restTime: 300000,
+      longRest: 0,
       count: 0
     }
     this.workIncrease = this.workIncrease.bind(this);
     this.workDecrease = this.workDecrease.bind(this);
-    /*this.restIncrease = this.restIncrease.bind(this);
-    this.restDecrease = this.restDecrease.bind(this);*/
+    this.restIncrease = this.restIncrease.bind(this);
+    this.restDecrease = this.restDecrease.bind(this);
     this.handleStartTimer = this.handleStartTimer.bind(this);
     this.handleStopTimer = this.handleStopTimer.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.displayTime = this.displayTime.bind(this);
     this.getTimeRemaining = this.getTimeRemaining.bind(this);
-
   }
 
   workIncrease() {
-    const {workTime}= this.state
     let timeRemaining = this.getTimeRemaining(
         this.state.timeRemaining.total + 60000
         );
     this.setState({ timeRemaining, workTime: timeRemaining.total });
-    console.log(workTime)
   }
 
   workDecrease() {
@@ -46,33 +45,40 @@ class App extends React.Component {
     this.setState({ timeRemaining, workTime: timeRemaining.total });
   }
 
-/*  restIncrease() {
-    this.state.restInterval += 1;
-    this.displayTime();
+  restIncrease() {
+    const { restTime } = this.state;
+    this.setState({ restTime: restTime + 60000 });
   }
 
   restDecrease() {
-    this.state.restInterval -= 1;
-    this.displayTime();
-  }*/
+    const { restTime } = this.state;
+    this.setState({ restTime: restTime - 60000 });
+  }
 
   handleStartTimer() {
-    const {phase} = this.state;
-    this.setState(phase === 'Start' ? { phase: 'Pause' } : { phase:'Start' });
-    phase === 'Start' ? this.startTimer() : this.pauseTimer();
+    const { status, phase, count } = this.state;
+    if (count % 2 !== 0) {
+      this.setState(status === 'Start' ? { status: 'Pause', phase: 'Work' } : { status:'Start', phase: 'Work' });
+    } else {
+      this.setState(status === 'Start' ? { status: 'Pause', phase: 'Break' } : { status:'Start', phase: 'Break' });
+    }
+    console.log(phase)
+
+    status === 'Start' ? this.startTimer() : this.pauseTimer();
+    clearInterval(this.state.timeElapsed);
   }
 
   handleStopTimer() {
-    const { phase, workTime } = this.state;
+    const { status, workTime } = this.state;
     clearInterval(this.state.timeElapsed);
-    this.setState({ timeElapsed: null, timeRemaining: this.getTimeRemaining(workTime), phase: 'Start' })
+    this.setState({ timeElapsed: null, timeRemaining: this.getTimeRemaining(workTime), status: 'Start' })
   }
 
   startTimer() {
-    const {phase} = this.state;
+    const { status } = this.state;
     this.displayTime();
-    if (phase === 'Start') {
-      this.setState({timeElapsed: setInterval(this.displayTime, 1000)})
+    if (status === 'Start') {
+      this.setState({ timeElapsed: setInterval(this.displayTime, 1000) })
     }
   }
 
@@ -87,6 +93,11 @@ class App extends React.Component {
         this.state.timeRemaining.total - 1000
         );
       this.setState({ timeRemaining });
+    } else {
+      const { count } = this.state;
+      clearInterval(this.state.timeElapsed)
+      this.setState({ count: count + 1})
+      this.completePomodoro();
     }
   }
 
@@ -97,6 +108,18 @@ class App extends React.Component {
         ? '0' + Math.floor(total / 1000 % 60)
         : Math.floor(total / 1000 % 60);
     return { total, minutes, seconds };
+  }
+
+  completePomodoro() {
+    const { restTime, count } = this.state;
+    if (count < 8) {
+      console.log('earned short break');
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(restTime)})
+    } else {
+      console.log('LONG BREAK');
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(6000), count: 0 })
+    }
+
   }
 
 
@@ -112,10 +135,10 @@ class App extends React.Component {
       restTime={restTimeMin}
       handleWorkIncrease={this.workIncrease}
       handleWorkDecrease={this.workDecrease}
-      /*handleRestIncrease={this.restIncrease}
-      handleRestDecrease={this.restDecrease}*//>
+      handleRestIncrease={this.restIncrease}
+      handleRestDecrease={this.restDecrease}/>
       <Controls
-      phase={this.state.phase}
+      status={this.state.status}
       handleOnClickStart={this.handleStartTimer}
       handleOnClickStop={this.handleStopTimer}/>
       <PomodoroStats
