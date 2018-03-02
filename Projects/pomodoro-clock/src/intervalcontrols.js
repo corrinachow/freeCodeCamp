@@ -5,7 +5,7 @@ const IntervalSettings = (props) => {
     <div className="interval-settings">
     <div className="work-interval">
       <button onClick={props.handleWorkIncrease}>^</button>
-      <input type="number" value={props.workInterval}></input>
+      <input type="number" value={props.time.minutes}></input>
       <button onClick={props.handleWorkDecrease}>v</button>
     </div>
     <div className="rest-interval">
