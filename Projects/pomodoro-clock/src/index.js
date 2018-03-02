@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
-import Controls from './controls';
-import IntervalSettings from './intervalcontrols';
-import Time from './time';
-import PomodoroStats from './pomodorostats'
+import './css/index.css';
+import Controls from './js/controls';
+import IntervalSettings from './js/intervalcontrols';
+import Time from './js/time';
+import PomodoroStats from './js/pomodorostats'
+import { _25, _05, _15, _01, _55 } from './js/time-variables'
 
 class App extends React.Component {
   constructor(props) {
@@ -13,15 +14,17 @@ class App extends React.Component {
     this.state = {
       phase: false,
       status: 'Start',
-      timeRemaining: this.getTimeRemaining(2000),//default 25 min
+      timeRemaining: this.getTimeRemaining(_25),//default 25 min
       timeElapsed: null,
-      workTime: 1500000,
-      restTime: 300000,
-      longRest: 0,
+      workTime: _25,
+      restTime: _05,
+      longRest: _15,
       count: 0
     }
+    //this.handleClick = this.handleClick.bind(this);
     this.workClick = this.workClick.bind(this);
     this.restClick = this.restClick.bind(this);
+    this.longRestClick = this.longRestClick.bind(this);
     this.handleStartTimer = this.handleStartTimer.bind(this);
     this.handleStopTimer = this.handleStopTimer.bind(this);
     this.startTimer = this.startTimer.bind(this);
@@ -31,26 +34,35 @@ class App extends React.Component {
 
 // TODO: refactor button clicks
 
-  workClick(e) {//put a min and max
-    if (!this.state.phase) {
+  workClick(e) {
+    if (!this.state.phase && this.state.timeRemaining.total < _55 && this.state.timeRemaining.total > _05) {
       let timeRemaining = String(e.target.classList).includes('increase') ?
-      this.getTimeRemaining(this.state.timeRemaining.total + 60000) :
-      this.getTimeRemaining(this.state.timeRemaining.total - 60000);
-
+      this.getTimeRemaining(this.state.timeRemaining.total + _01) :
+      this.getTimeRemaining(this.state.timeRemaining.total - _01);
       this.setState({ timeRemaining, workTime: timeRemaining.total });
     }
   }
 
-  restClick(e) {//put a min and max
-    if (!this.state.phase) {
+  restClick(e) {
+    const { restTime } = this.state;
+    if (!this.state.phase && restTime < _55 && restTime > _01) {
       this.setState(String(e.target.classList).includes('increase') ?
-        { restTime: this.state.restTime + 60000 } :
-        { restTime: this.state.restTime - 60000 });
+        { restTime: restTime + _01 } :
+        { restTime: restTime - _01 });
+    }
+  }
+
+  longRestClick(e) {
+    const { longRest } = this.state;
+    if (!this.state.phase && longRest < _55 && longRest > _01) {
+      this.setState(String(e.target.classList).includes('increase') ?
+        { longRest: longRest + _01 } :
+        { longRest: longRest - _01 });
     }
   }
 
   handleStartTimer() {
-    const { status, phase, count } = this.state;
+    const { status, count } = this.state;
     this.setState(status === 'Start' ? { status: 'Pause', phase: true } : { status:'Start', phase: true });
     console.log(count)
     status === 'Start' ? this.startTimer() : this.pauseTimer();
@@ -58,12 +70,12 @@ class App extends React.Component {
   }
 
   handleStopTimer() {
-    const { status, workTime } = this.state;
+    const { workTime } = this.state;
     clearInterval(this.state.timeElapsed);
     this.setState({ timeElapsed: null,
       timeRemaining: this.getTimeRemaining(workTime),
       status: 'Start',
-      phase: '',
+      phase: false,
       count: 0 })
   }
 
@@ -80,16 +92,13 @@ class App extends React.Component {
   }
 
   displayTime() {
-    //console.log(this.state.timeRemaining.total)
     if (this.state.timeRemaining.total > 0) {
       let timeRemaining = this.getTimeRemaining(
         this.state.timeRemaining.total - 1000
         );
       this.setState({ timeRemaining });
     } else {
-      const { count } = this.state;
       clearInterval(this.state.timeElapsed)
-      //this.setState({ count: count + 1})
       this.completePomodoro();
     }
   }
@@ -104,23 +113,23 @@ class App extends React.Component {
   }
 
   completePomodoro() {
-    const { restTime, count, workTime } = this.state;
+    const { count, workTime, restTime, longRest } = this.state;
     if (count > 6) {
       console.log('Youre on a long break')
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(6000), count: 0 })
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(longRest), count: count + 1 })
     } else if (count % 2 === 0 && count <= 6) {
       console.log('Youre on a short break');
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(1000), count: count + 1})
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(restTime), count: count + 1})
     } else if (count % 2 !== 0) {
       console.log('Youre working');
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(2000), count: count + 1})
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(workTime), count: count + 1})
     }
   }
-
 
   render(){
     const workTimeMin = (this.state.workTime)/1000/60;
     const restTimeMin = (this.state.restTime)/1000/60;
+    const longRestMin = (this.state.longRest)/1000/60;
     const pomodoros = (this.state.count)/2
     return (
     <div className="pomodoro-container">
@@ -132,8 +141,10 @@ class App extends React.Component {
       <IntervalSettings
       workTime={workTimeMin}
       restTime={restTimeMin}
+      longRestTime={longRestMin}
       handleWorkClick={this.workClick}
-      handleRestClick={this.restClick}/>
+      handleRestClick={this.restClick}
+      handleLongRest={this.longRestClick}/>
       <PomodoroStats
       count={pomodoros}/>
     </div>
