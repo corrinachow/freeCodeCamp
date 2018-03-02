@@ -4,6 +4,7 @@ import './index.css';
 import Controls from './controls';
 import IntervalSettings from './intervalcontrols';
 import Time from './time';
+import PomodoroStats from './pomodorostats'
 
 class App extends React.Component {
   constructor(props) {
@@ -14,17 +15,18 @@ class App extends React.Component {
       timeRemaining: this.getTimeRemaining(1500000),//default 25 min
       timeElapsed: null,
       workTime: 1500000,
-
+      restTime: 300000,
+      count: 0
     }
     this.workIncrease = this.workIncrease.bind(this);
     this.workDecrease = this.workDecrease.bind(this);
-    this.restIncrease = this.restIncrease.bind(this);
-    this.restDecrease = this.restDecrease.bind(this);
+    /*this.restIncrease = this.restIncrease.bind(this);
+    this.restDecrease = this.restDecrease.bind(this);*/
     this.handleStartTimer = this.handleStartTimer.bind(this);
     this.handleStopTimer = this.handleStopTimer.bind(this);
-    this.getTimeRemaining = this.getTimeRemaining.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.displayTime = this.displayTime.bind(this);
+    this.getTimeRemaining = this.getTimeRemaining.bind(this);
 
   }
 
@@ -41,10 +43,10 @@ class App extends React.Component {
     let timeRemaining = this.getTimeRemaining(
         this.state.timeRemaining.total - 60000
         );
-    this.setState({ timeRemaining });
+    this.setState({ timeRemaining, workTime: timeRemaining.total });
   }
 
-  restIncrease() {
+/*  restIncrease() {
     this.state.restInterval += 1;
     this.displayTime();
   }
@@ -52,7 +54,7 @@ class App extends React.Component {
   restDecrease() {
     this.state.restInterval -= 1;
     this.displayTime();
-  }
+  }*/
 
   handleStartTimer() {
     const {phase} = this.state;
@@ -98,22 +100,26 @@ class App extends React.Component {
   }
 
 
-
   render(){
+    const workTimeMin = (this.state.workTime)/1000/60;
+    const restTimeMin = (this.state.restTime)/1000/60;
     return (
     <div className="pomodoro-container">
       <Time time={this.state.timeRemaining}/>
       <IntervalSettings
-      time={this.state.workTime}
-      restInterval={this.state.restInterval}
+      workTime={workTimeMin}
+      deltaWork={this.changeWork}
+      restTime={restTimeMin}
       handleWorkIncrease={this.workIncrease}
       handleWorkDecrease={this.workDecrease}
-      handleRestIncrease={this.restIncrease}
-      handleRestDecrease={this.restDecrease}/>
+      /*handleRestIncrease={this.restIncrease}
+      handleRestDecrease={this.restDecrease}*//>
       <Controls
       phase={this.state.phase}
       handleOnClickStart={this.handleStartTimer}
       handleOnClickStop={this.handleStopTimer}/>
+      <PomodoroStats
+      count={this.state.count}/>
     </div>
     )
   }
