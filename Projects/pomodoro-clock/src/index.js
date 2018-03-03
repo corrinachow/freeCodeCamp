@@ -4,10 +4,9 @@ import './css/index.css';
 import Controls from './js/controls';
 import IntervalSettings from './js/intervalcontrols';
 import Time from './js/time';
-import ProgressBar from './js/progressbar';
 import PomodoroStats from './js/pomodorostats'
 import Tomato from './js/tomato';
-import { _25, _05, _15, _01, _55 } from './js/time-variables'
+import { _25, _05, _15, _01, _55 } from './js/default-variables'
 
 class App extends React.Component {
   constructor(props) {
@@ -21,14 +20,17 @@ class App extends React.Component {
       workTime: _25,
       restTime: _05,
       longRest: _15,
-      count: 0
+      count: 0,
+      bgColor: 'pink',
     }
+    this.initialState = this.state;
     //this.handleClick = this.handleClick.bind(this);
     this.workClick = this.workClick.bind(this);
     this.restClick = this.restClick.bind(this);
     this.longRestClick = this.longRestClick.bind(this);
     this.handleStartTimer = this.handleStartTimer.bind(this);
     this.handleStopTimer = this.handleStopTimer.bind(this);
+    this.handleReset = this.handleReset.bind(this);
     this.startTimer = this.startTimer.bind(this);
     this.displayTime = this.displayTime.bind(this);
     this.getTimeRemaining = this.getTimeRemaining.bind(this);
@@ -65,10 +67,10 @@ class App extends React.Component {
 
   handleStartTimer() {
     const { status, count } = this.state;
-    this.setState(status === 'Start' ? { status: 'Pause', phase: true } : { status:'Start', phase: true });
-    console.log(count)
+    this.setState(status === 'Start' ? { status: 'Pause', phase: true  } : { status:'Start', phase: true });
     status === 'Start' ? this.startTimer() : this.pauseTimer();
     clearInterval(this.state.timeElapsed);
+
   }
 
   handleStopTimer() {
@@ -78,19 +80,25 @@ class App extends React.Component {
       timeRemaining: this.getTimeRemaining(workTime),
       status: 'Start',
       phase: false,
-      count: 0 })
+      count: 0,
+      bgColor: 'pink' })
+  }
+
+  handleReset() {
+    this.setState(this.initialState);
   }
 
   startTimer() {
     const { status } = this.state;
     this.displayTime();
     if (status === 'Start') {
-      this.setState({ timeElapsed: setInterval(this.displayTime, 1000) })
+      this.setState({ timeElapsed: setInterval(this.displayTime, 1000), bgColor: 'green' })
     }
   }
 
   pauseTimer() {
     clearInterval(this.state.timeElapsed);
+    this.setState({ bgColor: 'yellow' })
   }
 
   displayTime() {
@@ -117,15 +125,13 @@ class App extends React.Component {
   completePomodoro() {
     const { count, workTime, restTime, longRest } = this.state;
     if (count > 6) {
-      console.log('Youre on a long break')
       this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(longRest), count: count + 1 })
     } else if (count % 2 === 0 && count <= 6) {
-      console.log('Youre on a short break');
       this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(restTime), count: count + 1})
     } else if (count % 2 !== 0) {
-      console.log('Youre working');
       this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(workTime), count: count + 1})
     }
+    this.setState({ bgColor: 'lightblue' })
   }
 
   render(){
@@ -134,14 +140,15 @@ class App extends React.Component {
     const longRestMin = (this.state.longRest)/1000/60;
     const pomodoros = Math.floor((this.state.count)/2);
     return (
-    <div className="pomodoro-container">
+    <div className="pomodoro-container" style={{backgroundColor: this.state.bgColor}}>
+      <h1>Tomato Timer</h1>
       <Tomato />
       <Time time={this.state.timeRemaining}/>
-      <ProgressBar/>
       <Controls
       status={this.state.status}
       handleOnClickStart={this.handleStartTimer}
-      handleOnClickStop={this.handleStopTimer}/>
+      handleOnClickStop={this.handleStopTimer}
+      handleOnClickReset={this.handleReset}/>
       <IntervalSettings
       workTime={workTimeMin}
       restTime={restTimeMin}

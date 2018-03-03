@@ -1,12 +1,23 @@
 body {
   text-align: center;
   font-family: sans-serif;
+  background: #DCF5E9
+  /*background: repeating-linear-gradient(to right,
+    transparent,
+    transparent 20px,
+    red 20px,
+    red 40px)*/
+}
+
+button {
+  border-style: none;
+  border-radius: 10px;
 }
 
 #root {
   margin: 0 auto;
-  height: 500px;
-  width: 500px;
+  height: 0px;
+  width: 400px;
 
 /*some colours*/
   --tomato: #ff6347;
@@ -14,12 +25,13 @@ body {
 }
 
 .pomodoro-container {
+  padding: 20px;
+  transition-duration: 1s;
+  border-radius: 10px;
 
 }
 
 .box {
-  padding: 50px;
-  background: blue;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -29,7 +41,7 @@ body {
   width: 120px;
   height: 90px;
 
-  transform: scale(1);
+  transform: scale(0.5);
 }
 
 
@@ -116,7 +128,7 @@ body {
   z-index: 1;
 }
 
-.triangle {
+/*.triangle {
   position: relative;
   margin: auto;
   top: 40%;
@@ -127,23 +139,27 @@ body {
   border-right: 5px solid transparent;
   border-bottom: 5px solid white;
   z-index: 1;
-}
+}*/
 
 .time {
   font-size: 3em;
 }
 
-.progress-bar {
+.controls {
   display: flex;
-  align-items: center;
-  background: blue;
-  width: 80%;
-  height: 20px;
 }
 
+.controls button {
+  flex: 1;
+}
 
-
-.interval-settings {
+.settings {
   display: flex;
   justify-content: center;
+}
+.interval-settings {
+  background: red;
+  margin: 5px;
+  flex: 1;
+
 }
