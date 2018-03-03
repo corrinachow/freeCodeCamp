@@ -42,7 +42,7 @@ class App extends React.Component {
 // TODO: refactor button clicks
 
   workClick(e) {
-    if (!this.state.phase && this.state.timeRemaining.total < _55 && this.state.timeRemaining.total > _05) {
+    if (this.state.timeRemaining.total < _55 && this.state.timeRemaining.total > _05) {
       let timeRemaining = String(e.target.classList).includes('increase') ?
       this.getTimeRemaining(this.state.timeRemaining.total + _01) :
       this.getTimeRemaining(this.state.timeRemaining.total - _01);
@@ -52,7 +52,7 @@ class App extends React.Component {
 
   restClick(e) {
     const { restTime } = this.state;
-    if (!this.state.phase && restTime < _55 && restTime > _01) {
+    if (restTime < _55 && restTime > _01) {
       this.setState(String(e.target.classList).includes('increase') ?
         { restTime: restTime + _01 } :
         { restTime: restTime - _01 });
@@ -61,7 +61,7 @@ class App extends React.Component {
 
   longRestClick(e) {
     const { longRest } = this.state;
-    if (!this.state.phase && longRest < _55 && longRest > _01) {
+    if (longRest < _55 && longRest > _01) {
       this.setState(String(e.target.classList).includes('increase') ?
         { longRest: longRest + _01 } :
         { longRest: longRest - _01 });
@@ -143,7 +143,8 @@ class App extends React.Component {
     const restTimeMin = (this.state.restTime)/1000/60;
     const longRestMin = (this.state.longRest)/1000/60;
     const pomodoros = Math.floor((this.state.count)/2);
-    const timeClasses = this.state.blink ? 'time blinker' : 'time'
+    const timeClasses = this.state.blink ? 'time blinker' : 'time';
+    const settingsClasses = this.state.timeElapsed ? 'settings hidden' : 'settings';
     return (
     <div className="pomodoro-container" style={{backgroundColor: this.state.bgColor}}>
       <h1>Tomato Timer</h1>
@@ -156,6 +157,7 @@ class App extends React.Component {
       handleOnClickStop={this.handleStopTimer}
       handleOnClickReset={this.handleReset}/>
       <IntervalSettings
+      settingsClass={settingsClasses}
       workTime={workTimeMin}
       restTime={restTimeMin}
       longRestTime={longRestMin}

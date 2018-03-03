@@ -169,7 +169,10 @@ button {
   background: red;
   margin: 5px;
   flex: 1;
+}
 
+.hidden {
+  display: none;
 }
 
 @-webkit-keyframes blinker {

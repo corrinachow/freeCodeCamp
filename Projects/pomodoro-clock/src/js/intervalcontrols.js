@@ -2,7 +2,7 @@ import React from 'react';
 
 const IntervalSettings = (props) => {
   return (
-    <div className="settings">
+    <div className={props.settingsClass}>
     <div className="interval-settings">
       <p>session</p>
       <button className="increase work-time" onClick={props.handleWorkClick}>^</button>
