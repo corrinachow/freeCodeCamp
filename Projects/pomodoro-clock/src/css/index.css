@@ -1,9 +1,149 @@
 body {
-  margin: 0;
-  padding: 0;
+  text-align: center;
   font-family: sans-serif;
 }
 
+#root {
+  margin: 0 auto;
+  height: 500px;
+  width: 500px;
+
+/*some colours*/
+  --tomato: #ff6347;
+  --stem: #a3cd39;
+}
+
+.pomodoro-container {
+
+}
+
+.box {
+  padding: 50px;
+  background: blue;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tomato {
+  width: 120px;
+  height: 90px;
+
+  transform: scale(1);
+}
+
+
+/*tomato left side*/
+.tomato:after {
+  position: absolute;
+  content: '';
+  width: 70px;
+  height: 90px;
+  top: 0;
+  border-radius: 50px;
+  box-shadow: -3px 0px 5px 0px rgba(0,0,0,0.3);
+
+  left: 10px;
+  transform: rotate(-25deg);
+  background: var(--tomato);
+}
+
+/*tomato right side*/
+.tomato:before {
+  position: absolute;
+  content: '';
+  width: 70px;
+  height: 90px;
+  border-radius: 50px;
+  box-shadow: 2px 0px 5px 0px rgba(0,0,0,0.3);
+
+  right: 10px;
+  transform: rotate(25deg);
+  background: var(--tomato);
+}
+
+.stem {
+  position:absolute;
+  height:20px;
+  width:20px;
+  border-radius:20px 0 20px 0;
+  transform: rotateZ(-45deg);
+  margin-left: 50px;
+  top: 10px;
+  box-shadow: 0 0 3px #000;
+  background: var(--stem);
+  z-index: 1;
+
+}
+
+/*right leaf*/
+.stem:before {
+  position:absolute;
+  height:20px;
+  width:20px;
+  content: '';
+  border-radius:0px 20px 0px 20px;
+  margin-left: 10px;
+  box-shadow: 0 0 3px #000;
+  background: var(--stem);
+}
+
+/*left leaf*/
+.stem:after{
+  position:absolute;
+  height:20px;
+  width:20px;
+  content: '';
+  border-radius:20px 0px 20px 0px;
+  transform: rotateZ(90deg);
+  margin-top: -20px;
+  margin-left: -10px;
+  box-shadow: 0 0 3px #000;
+  background: var(--stem);
+}
+
+.highlight {
+  position: relative;
+  top: 15%;
+  left: 12%;
+  width: 20px;
+  height: 10px;
+  border-radius: 50%;
+  border-top: 3px solid rgba(255,255,255,0.3);
+  transform: rotate(-45deg);
+
+  background: rgba(255,255,255,0);
+  z-index: 1;
+}
+
+.triangle {
+  position: relative;
+  margin: auto;
+  top: 40%;
+
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-bottom: 5px solid white;
+  z-index: 1;
+}
+
+.time {
+  font-size: 3em;
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  background: blue;
+  width: 80%;
+  height: 20px;
+}
+
+
+
 .interval-settings {
   display: flex;
+  justify-content: center;
 }

@@ -4,7 +4,9 @@ import './css/index.css';
 import Controls from './js/controls';
 import IntervalSettings from './js/intervalcontrols';
 import Time from './js/time';
+import ProgressBar from './js/progressbar';
 import PomodoroStats from './js/pomodorostats'
+import Tomato from './js/tomato';
 import { _25, _05, _15, _01, _55 } from './js/time-variables'
 
 class App extends React.Component {
@@ -130,10 +132,12 @@ class App extends React.Component {
     const workTimeMin = (this.state.workTime)/1000/60;
     const restTimeMin = (this.state.restTime)/1000/60;
     const longRestMin = (this.state.longRest)/1000/60;
-    const pomodoros = (this.state.count)/2
+    const pomodoros = Math.floor((this.state.count)/2);
     return (
     <div className="pomodoro-container">
+      <Tomato />
       <Time time={this.state.timeRemaining}/>
+      <ProgressBar/>
       <Controls
       status={this.state.status}
       handleOnClickStart={this.handleStartTimer}
