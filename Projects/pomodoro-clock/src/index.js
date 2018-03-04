@@ -15,7 +15,7 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      phase: 'work',
+      phase: 'Work time!',
       status: 'Start',
       timeRemaining: this.getTimeRemaining(_25),//default 25 min
       timeElapsed: null,
@@ -77,7 +77,7 @@ class App extends React.Component {
     clearInterval(this.state.timeElapsed);
     this.setState({ timeRemaining: this.getTimeRemaining(workTime),
       status: 'Start',
-      phase: 'work',
+      phase: 'Work time!',
       count: 0,
       bgColor: _mainColor,
       timeElapsed: null,
@@ -126,11 +126,11 @@ class App extends React.Component {
   completePomodoro() {
     const { count, workTime, restTime, longRest } = this.state;
     if (count > 6) {
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(longRest), count: count + 1, phase: 'break' })
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(longRest), count: count + 1, phase: 'Break time!' })
     } else if (count % 2 === 0 && count <= 6) {
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(restTime), count: count + 1, phase: 'break' })
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(restTime), count: count + 1, phase: 'Break time!' })
     } else if (count % 2 !== 0) {
-      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(workTime), count: count + 1, phase: 'work' })
+      this.setState({ status: 'Start', timeRemaining: this.getTimeRemaining(workTime), count: count + 1, phase: 'Work time!' })
     }
     this.setState({ bgColor: _breakColor, blink: true })
   }
@@ -142,13 +142,14 @@ class App extends React.Component {
     const pomodoros = Math.floor((this.state.count)/2);
     const timeClasses = this.state.blink ? 'time blinker' : 'time';
     const settingsClasses = !this.state.timeElapsed ? 'settings' : 'settings hidden';
+    const borderStyle = {border: 'solid 5px ' + this.state.bgColor};
 
-    console.log(settingsClasses)
+    console.log(borderStyle)
     return (
-    <div className="pomodoro-container" style={{backgroundColor: this.state.bgColor}}>
-      <h1>Pomodoro</h1>
+    <div className="pomodoro-container" style={borderStyle}>
+      <h1>Pomodoro Timer</h1>
       <Tomato />
-      <div>{this.state.phase}</div>
+      <p>{this.state.phase}</p>
       <Time timeClass={timeClasses} time={this.state.timeRemaining}/>
       <Controls
       status={this.state.status}
