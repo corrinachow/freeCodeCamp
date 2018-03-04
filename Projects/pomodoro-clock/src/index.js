@@ -27,7 +27,6 @@ class App extends React.Component {
       blink: false,
     }
     this.initialState = this.state;
-    //this.handleClick = this.handleClick.bind(this);
     this.workClick = this.workClick.bind(this);
     this.restClick = this.restClick.bind(this);
     this.longRestClick = this.longRestClick.bind(this);
@@ -38,8 +37,6 @@ class App extends React.Component {
     this.displayTime = this.displayTime.bind(this);
     this.getTimeRemaining = this.getTimeRemaining.bind(this);
   }
-
-// TODO: refactor button clicks
 
   workClick(e) {
     if (this.state.timeRemaining.total < _55 && this.state.timeRemaining.total > _05) {
