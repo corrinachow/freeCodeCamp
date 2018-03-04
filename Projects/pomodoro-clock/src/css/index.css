@@ -1,7 +1,7 @@
 body {
+  font-size: 18px;
   text-align: center;
   font-family: sans-serif;
-  background: #DCF5E9
   /*background: repeating-linear-gradient(to right,
     transparent,
     transparent 20px,
@@ -10,7 +10,7 @@ body {
 }
 
 button {
-  border-style: none;
+  border: solid;
   border-radius: 10px;
 }
 
@@ -31,16 +31,23 @@ button {
 
 }
 
-.box {
+.box, .controls, .settings {
   display: flex;
-  align-items: center;
+}
+
+.box {
   justify-content: center;
+  background: white;
+  height: 150px;
+  width: 150px;
+  border-radius: 50%;
+
 }
 
 .tomato {
+  display: flex;
   width: 120px;
   height: 90px;
-
   transform: scale(0.5);
 }
 
@@ -145,34 +152,45 @@ button {
   font-size: 3em;
 }
 
+.controls button {
+  flex: 1;
+  margin: 5em 5px;
+  border: solid;
+}
+
+.settings {
+  justify-content: center;
+  overflow-y: hidden;
+  max-height: 150px;
+  transition-property: all;
+  transition-duration: .5s;
+  transition-timing-function: cubic-bezier(0, 1, 0.5, 1);
+}
+
+.interval-settings {
+  flex: 1;
+  margin: 5px;
+
+}
+
+.increase, .decrease {
+  font-size: 1em;
+}
+.pomodoro-stats {
+  padding: 1em 0;
+  font-size: 2em;
+}
+
+.hidden {
+  max-height: 0;
+}
+
 .blinker {
   -webkit-animation-name: blinker;
   -webkit-animation-duration: .8s;
   -webkit-animation-iteration-count:infinite;
   -webkit-animation-timing-function:ease-in-out;
   -webkit-animation-direction: alternate;
-}
-.controls {
-  display: flex;
-}
-
-.controls button {
-  flex: 1;
-  margin: 5px;
-}
-
-.settings {
-  display: flex;
-  justify-content: center;
-}
-.interval-settings {
-  background: red;
-  margin: 5px;
-  flex: 1;
-}
-
-.hidden {
-  display: none;
 }
 
 @-webkit-keyframes blinker {

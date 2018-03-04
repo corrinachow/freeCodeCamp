@@ -5,21 +5,21 @@ const IntervalSettings = (props) => {
     <div className={props.settingsClass}>
     <div className="interval-settings">
       <p>session</p>
-      <button className="increase work-time" onClick={props.handleWorkClick}>^</button>
+      <button className="increase work-time" onClick={props.handleWorkClick}>▲</button>
       <div className="work-time">{props.workTime}</div>
-      <button className="decrease work-time" onClick={props.handleWorkClick}>v</button>
+      <button className="decrease work-time" onClick={props.handleWorkClick}>▼</button>
     </div>
     <div className="interval-settings">
       <p>break</p>
-      <button className="increase rest-time" onClick={props.handleRestClick}>^</button>
+      <button className="increase rest-time" onClick={props.handleRestClick}>▲</button>
       <div className="rest-time">{props.restTime}</div>
-      <button className="decrease rest-time" onClick={props.handleRestClick}>v</button>
+      <button className="decrease rest-time" onClick={props.handleRestClick}>▼</button>
     </div>
     <div className="interval-settings">
       <p>long break</p>
-      <button className="increase long-rest" onClick={props.handleLongRest}>^</button>
+      <button className="increase long-rest" onClick={props.handleLongRest}>▲</button>
       <div className="long-rest-time">{props.longRestTime}</div>
-      <button className="decrease long-rest" onClick={props.handleLongRest}>v</button>
+      <button className="decrease long-rest" onClick={props.handleLongRest}>▼</button>
     </div>
     </div>
     );

@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/index.css';
 import Controls from './js/controls';
-import IntervalSettings from './js/intervalcontrols';
+import IntervalSettings from './js/interval-settings';
 import Time from './js/time';
 import PomodoroStats from './js/pomodorostats'
 import Tomato from './js/tomato';
@@ -17,7 +17,7 @@ class App extends React.Component {
     this.state = {
       phase: 'work',
       status: 'Start',
-      timeRemaining: this.getTimeRemaining(1000),//default 25 min
+      timeRemaining: this.getTimeRemaining(_25),//default 25 min
       timeElapsed: null,
       workTime: _25,
       restTime: _05,
@@ -73,18 +73,18 @@ class App extends React.Component {
     this.setState(status === 'Start' ? { status: 'Pause', blink: false } : { status:'Start' });
     status === 'Start' ? this.startTimer() : this.pauseTimer();
     clearInterval(this.state.timeElapsed);
-    console.log(this.state.phase)
   }
 
   handleStopTimer() {
     const { workTime } = this.state;
     clearInterval(this.state.timeElapsed);
-    this.setState({ timeElapsed: null,
-      timeRemaining: this.getTimeRemaining(workTime),
+    this.setState({ timeRemaining: this.getTimeRemaining(workTime),
       status: 'Start',
       phase: 'work',
       count: 0,
-      bgColor: _mainColor })
+      bgColor: _mainColor,
+      timeElapsed: null,
+    })
   }
 
   handleReset() {
@@ -144,10 +144,12 @@ class App extends React.Component {
     const longRestMin = (this.state.longRest)/1000/60;
     const pomodoros = Math.floor((this.state.count)/2);
     const timeClasses = this.state.blink ? 'time blinker' : 'time';
-    const settingsClasses = this.state.timeElapsed ? 'settings hidden' : 'settings';
+    const settingsClasses = !this.state.timeElapsed ? 'settings' : 'settings hidden';
+
+    console.log(settingsClasses)
     return (
     <div className="pomodoro-container" style={{backgroundColor: this.state.bgColor}}>
-      <h1>Tomato Timer</h1>
+      <h1>Pomodoro</h1>
       <Tomato />
       <div>{this.state.phase}</div>
       <Time timeClass={timeClasses} time={this.state.timeRemaining}/>

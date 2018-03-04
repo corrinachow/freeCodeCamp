@@ -3,7 +3,7 @@ import React from 'react';
 const PomodoroStats = (props) => {
   return(
     <div className="pomodoro-stats">
-    Pomodoros: {props.count}
+    {`Session ${props.count}/4`}
     </div>
     )
 }
