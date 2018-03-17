@@ -1,5 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
+import Players from './js/settings';
+import Tokens from './js/tokens';
 import './css/index.css';
 
 const winCombos = [
@@ -18,50 +20,88 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      player1: null,
-      player2: null,
+    humans: null,
+      player1Token: 'O',
       turn: 'O',
-      board: ['', '', '', '', '', '', '', '', ''],
+      board: [],
+      status: null
+  };
+
+    this.handleClick = this.handleClick.bind(this);
+    this.handlePlayers = this.handlePlayers.bind(this);
+    this.handleTokens = this.handleTokens.bind(this)
+
   }
-  this.initialState = this.state;
-  this.handleClick = this.handleClick.bind(this);
+
+  handlePlayers(players) {
+    this.setState({humans: players.target.value});
+  }
+
+  handleTokens(token) {
+    this.setState({player1Token: token.target.value});
   }
 
   handleClick(square) {
     const { turn, board } = this.state;
 
-
-
     if (board[square - 1] === 'X' || board[square - 1] === 'O') {
       console.log('pick another')
     } else {
-      board.splice(square - 1, 1, turn);
-      this.setState(turn === 'O' ? { turn: 'X' } : { turn :'O' });
+      board[square - 1] = turn;
+      this.setState({turn: turn === 'O' ? 'X' : 'O' , board});
     }
+    this.checkWin();
   }
 
   checkWin() {
     const { board } = this.state;
-    winCombos.forEach(combo => {
 
-    })
+    winCombos.forEach(combo => {
+      let countX = 0;
+      let countO = 0;
+      combo.forEach(box => {
+        if (board[box - 1] === 'X') {
+          countX += 1;
+        } if (board[box - 1] === 'O') {
+          countO += 1;
+        }
+      });
+      if (countX === 3) {
+        this.setState({status: 'X wins'})
+      } if (countO === 3) {
+        this.setState({status: 'O wins'})
+      }
+      if (board.length === 0) {
+        this.setState({status: 'tie'})
+      }
+    });
   }
 
+  handleReset() {
+    this.setState({
+    humans: null, player1Token: 'O', turn: 'O', board: [], status: null });
+  };
 
 
 
   render() {
     return(
-      <div className="board">
-        <button value="1" onClick={() => this.handleClick(1)}>{this.state.board[0]}</button>
-        <button value="2" onClick={() => this.handleClick(2)}>{this.state.board[1]}</button>
-        <button value="3" onClick={() => this.handleClick(3)}>{this.state.board[2]}</button>
-        <button value="4" onClick={() => this.handleClick(4)}>{this.state.board[3]}</button>
-        <button value="5" onClick={() => this.handleClick(5)}>{this.state.board[4]}</button>
-        <button value="6" onClick={() => this.handleClick(6)}>{this.state.board[5]}</button>
-        <button value="7" onClick={() => this.handleClick(7)}>{this.state.board[6]}</button>
-        <button value="8" onClick={() => this.handleClick(8)}>{this.state.board[7]}</button>
-        <button value="9" onClick={() => this.handleClick(9)}>{this.state.board[8]}</button>
+      <div className="game">
+      <Players numPlayers={this.handlePlayers} />
+      <Tokens playerToken={this.handleTokens}/>
+        <div className="board">
+          <button onClick={() => this.handleClick(1)}>{this.state.board[0]}</button>
+          <button onClick={() => this.handleClick(2)}>{this.state.board[1]}</button>
+          <button onClick={() => this.handleClick(3)}>{this.state.board[2]}</button>
+          <button onClick={() => this.handleClick(4)}>{this.state.board[3]}</button>
+          <button onClick={() => this.handleClick(5)}>{this.state.board[4]}</button>
+          <button onClick={() => this.handleClick(6)}>{this.state.board[5]}</button>
+          <button onClick={() => this.handleClick(7)}>{this.state.board[6]}</button>
+          <button onClick={() => this.handleClick(8)}>{this.state.board[7]}</button>
+          <button onClick={() => this.handleClick(9)}>{this.state.board[8]}</button>
+          <p>{this.state.status}</p>
+          <button onClick={() => this.handleReset()}>Reset</button>
+        </div>
       </div>
       );
   }
