@@ -20,7 +20,7 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    humans: '1', /*testing computer moves*/
+    humans: null,
     player1Token: 'O',
     player2Token: 'X',
     turn: 'O',
@@ -51,20 +51,24 @@ class Board extends React.Component {
   }
 
   handleClick(square) {
-    const { turn, board, humans, player2Token, gameInProgress} = this.state;
-
+    const { turn, board, humans, player1Token , player2Token, gameInProgress} = this.state;
     if (gameInProgress) {
       if (board[square - 1] === 'X' || board[square - 1] === 'O') {
       console.log('pick another')
     } else {
       board[square - 1] = turn;
-
+      if (humans === '2') {
+      this.setState({turn: turn === 'X' ? 'O' : 'X'})
     }
+    }
+
     if (humans === '1') {
       this.computerMove();
+      this.setState({turn: turn === 'X' ? 'X' : 'O'})
     }
 
     this.checkWin();
+
   }
     }
 
@@ -93,7 +97,7 @@ class Board extends React.Component {
     let newMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
     console.log(newMove)
     board[newMove - 1] = player2Token;
-    this.setState({turn: 'O'})
+    this.setState({turn: turn === 'X' ? 'X' : 'O'})
   }
 
   checkWin() {
@@ -111,22 +115,23 @@ class Board extends React.Component {
       });
       if (countX === 3) {
         this.setState({winner: 'X wins'})
+        setTimeout(() => this.playAgain(), 3000);
       } else if (countO === 3) {
         this.setState({winner: 'O wins'});
+        setTimeout(() => this.playAgain(), 3000);
       } else if (board.length === 9 && board.includes(undefined) === false) {
         this.setState({winner: 'tie'});
+        setTimeout(() => this.playAgain(), 3000);
       }
     });
   }
 
     playAgain () {
-
       this.setState({board: [], winner: null})
     }
 
   handleReset() {
-    this.setState({
-    humans: null, player1Token: 'O', turn: 'O', board: [], winner: null });
+    this.setState({humans: null, player1Token: 'O', turn: 'O', board: [], winner: null });
   };
 
 
@@ -151,7 +156,7 @@ class Board extends React.Component {
         <div>
           <p>{this.state.winner}</p>
         </div>
-        <button onClick={() => this.handleReset()}>Reset</button>
+        <button onClick={() => this.handleReset()}>Reset All</button>
       </div>
       );
   }
