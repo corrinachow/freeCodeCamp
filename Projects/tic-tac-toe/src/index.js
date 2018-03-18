@@ -20,11 +20,13 @@ class Board extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-    humans: null,
-      player1Token: 'O',
-      turn: 'O',
-      board: [],
-      status: null
+    humans: '1', /*testing computer moves*/
+    player1Token: 'O',
+    player2Token: 'X',
+    turn: 'O',
+    board: [],
+    gameInProgress: true,
+    winner: null
   };
 
     this.handleClick = this.handleClick.bind(this);
@@ -38,19 +40,60 @@ class Board extends React.Component {
   }
 
   handleTokens(token) {
-    this.setState({player1Token: token.target.value});
+    this.setState({
+      player1Token: token.target.value,
+      player2Token: token.target.value === 'O' ? 'X' : 'O',
+      turn: token.target.value});
+  }
+
+  toggleStart() {
+    this.setState({ gameInProgress: this.state.gameInProgress ? false : true });
   }
 
   handleClick(square) {
-    const { turn, board } = this.state;
+    const { turn, board, humans, player2Token, gameInProgress} = this.state;
 
-    if (board[square - 1] === 'X' || board[square - 1] === 'O') {
+    if (gameInProgress) {
+      if (board[square - 1] === 'X' || board[square - 1] === 'O') {
       console.log('pick another')
     } else {
       board[square - 1] = turn;
-      this.setState({turn: turn === 'O' ? 'X' : 'O' , board});
+
     }
+    if (humans === '1') {
+      this.computerMove();
+    }
+
     this.checkWin();
+  }
+    }
+
+
+
+  computerMove() {
+    const { board, player1Token, player2Token , turn } = this.state;
+    let possibleMoves = []
+
+    winCombos.forEach(combo => {
+      let count = 0;
+
+      combo.forEach(box => {
+        if (board[box - 1] === player2Token) {
+          count ++
+        }
+        if (board[box - 1] != player1Token && board[box - 1] === undefined) {
+          if (!possibleMoves.includes(box)) {
+            possibleMoves.push(box);
+          }
+          console.log('new move is ' )
+        }
+      });
+      console.log(possibleMoves)
+    });
+    let newMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
+    console.log(newMove)
+    board[newMove - 1] = player2Token;
+    this.setState({turn: 'O'})
   }
 
   checkWin() {
@@ -67,19 +110,23 @@ class Board extends React.Component {
         }
       });
       if (countX === 3) {
-        this.setState({status: 'X wins'})
-      } if (countO === 3) {
-        this.setState({status: 'O wins'})
-      }
-      if (board.length === 0) {
-        this.setState({status: 'tie'})
+        this.setState({winner: 'X wins'})
+      } else if (countO === 3) {
+        this.setState({winner: 'O wins'});
+      } else if (board.length === 9 && board.includes(undefined) === false) {
+        this.setState({winner: 'tie'});
       }
     });
   }
 
+    playAgain () {
+
+      this.setState({board: [], winner: null})
+    }
+
   handleReset() {
     this.setState({
-    humans: null, player1Token: 'O', turn: 'O', board: [], status: null });
+    humans: null, player1Token: 'O', turn: 'O', board: [], winner: null });
   };
 
 
@@ -89,6 +136,7 @@ class Board extends React.Component {
       <div className="game">
       <Players numPlayers={this.handlePlayers} />
       <Tokens playerToken={this.handleTokens}/>
+      <button className="" onClick={this.toggleStart.bind(this)}>Start</button>
         <div className="board">
           <button onClick={() => this.handleClick(1)}>{this.state.board[0]}</button>
           <button onClick={() => this.handleClick(2)}>{this.state.board[1]}</button>
@@ -99,9 +147,11 @@ class Board extends React.Component {
           <button onClick={() => this.handleClick(7)}>{this.state.board[6]}</button>
           <button onClick={() => this.handleClick(8)}>{this.state.board[7]}</button>
           <button onClick={() => this.handleClick(9)}>{this.state.board[8]}</button>
-          <p>{this.state.status}</p>
-          <button onClick={() => this.handleReset()}>Reset</button>
         </div>
+        <div>
+          <p>{this.state.winner}</p>
+        </div>
+        <button onClick={() => this.handleReset()}>Reset</button>
       </div>
       );
   }
