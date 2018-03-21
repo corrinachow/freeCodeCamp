@@ -25,7 +25,7 @@ class Board extends React.Component {
     player2Token: 'X',
     turn: 'O',
     board: [],
-    gameInProgress: true,
+    gameInProgress: false,
     winner: null
   };
 
@@ -51,27 +51,26 @@ class Board extends React.Component {
   }
 
   handleClick(square) {
-    const { turn, board, humans, player1Token , player2Token, gameInProgress} = this.state;
-    if (gameInProgress) {
-      if (board[square - 1] === 'X' || board[square - 1] === 'O') {
-      console.log('pick another')
-    } else {
-      board[square - 1] = turn;
-      if (humans === '2') {
-      this.setState({turn: turn === 'X' ? 'O' : 'X'})
-    }
-    }
-
-    if (humans === '1') {
-      this.computerMove();
-      this.setState({turn: turn === 'X' ? 'X' : 'O'})
-    }
-
     this.checkWin();
+    const { turn, board, humans, player1Token, player2Token, gameInProgress, winner } = this.state;
+    if (gameInProgress) {
+        if (board[square - 1] === 'X' || board[square - 1] === 'O' || winner) {
+            console.log('TRY AGAIN')
+        } else {
+            board[square - 1] = turn;
+            if (humans === '2') {
+                this.setState({ turn: turn === 'X' ? 'O' : 'X' })
+            } else if (humans === '1') {
+                this.computerMove();
+                this.setState({ turn: turn === 'X' ? 'X' : 'O' })
+            }
+            this.checkWin();
+        }
 
-  }
+    } else { // End gameinprogress
+        console.log('start game')
     }
-
+  }
 
 
   computerMove() {
@@ -101,7 +100,7 @@ class Board extends React.Component {
   }
 
   checkWin() {
-    const { board } = this.state;
+    const { board, winner } = this.state;
 
     winCombos.forEach(combo => {
       let countX = 0;
@@ -113,16 +112,18 @@ class Board extends React.Component {
           countO += 1;
         }
       });
-      if (countX === 3) {
-        this.setState({winner: 'X wins'})
-        setTimeout(() => this.playAgain(), 3000);
-      } else if (countO === 3) {
-        this.setState({winner: 'O wins'});
-        setTimeout(() => this.playAgain(), 3000);
-      } else if (board.length === 9 && board.includes(undefined) === false) {
-        this.setState({winner: 'tie'});
-        setTimeout(() => this.playAgain(), 3000);
-      }
+      if(!this.state.winner) {
+        if (countX === 3) {
+          this.setState({winner: 'X wins'})
+          setTimeout(() => this.playAgain(), 3000);
+        } else if (countO === 3) {
+          this.setState({winner: 'O wins'});
+          setTimeout(() => this.playAgain(), 3000);
+        } else if (board.length === 9 && !board.includes(undefined)) {
+          this.setState({winner: 'tie'});
+          setTimeout(() => this.playAgain(), 3000);
+        }
+    }
     });
   }
 
@@ -131,18 +132,19 @@ class Board extends React.Component {
     }
 
   handleReset() {
-    this.setState({humans: null, player1Token: 'O', turn: 'O', board: [], winner: null });
+    this.setState({gameInProgress: false, player1Token: 'O', player2Token: 'X', turn: 'O', board: [], winner: null });
   };
 
 
 
   render() {
+    const toggleBoardVisibility = {visibility: this.state.gameInProgress ? 'visible' : 'hidden'};
     return(
       <div className="game">
       <Players numPlayers={this.handlePlayers} />
       <Tokens playerToken={this.handleTokens}/>
       <button className="" onClick={this.toggleStart.bind(this)}>Start</button>
-        <div className="board">
+        <div className="board" style={toggleBoardVisibility}>
           <button onClick={() => this.handleClick(1)}>{this.state.board[0]}</button>
           <button onClick={() => this.handleClick(2)}>{this.state.board[1]}</button>
           <button onClick={() => this.handleClick(3)}>{this.state.board[2]}</button>
