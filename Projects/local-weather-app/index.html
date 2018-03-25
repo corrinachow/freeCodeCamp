@@ -1,39 +1,37 @@
 <!DOCTYPE HTML>
 <html>
-  <head>
+
+<head>
     <meta charset="UTF-8">
-    <title>corrinachow's Local Weather App for freeCodeCamp</title>
+    <title>Local Weather App</title>
     <link href="https://use.fontawesome.com/releases/v5.0.6/css/all.css" rel="stylesheet">
-    <link rel="stylesheet" href="./css/style.css"/>
-    <link rel="stylesheet" href="./css/weather-icons.css"/>
+    <link rel="stylesheet" href="./css/style.css" />
+    <link rel="stylesheet" href="./css/weather-icons.css" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-  </head>
-  <body>
+</head>
+
+<body>
     <h1>local weather</h1>
     <div id="loader" style="display:none">
-      <p>LOADING</p>
-      <div class="loadAnimation"></div>
+        <p>LOADING</p>
+        <div class="loadAnimation"></div>
     </div>
     <div class="button" id="retrieveWeather" style="display: block">click here to retrieve weather</div>
     <div id="weatherBox" class="container-fluid text-center animate-bottom" style='display:none'>
-      <div id="location"></div>
-      <i id=weather-icon class=""></i>
-      <div id="weather"></div>
+        <div id="location"></div>
+        <i id=weather-icon class=""></i>
+        <div id="weather"></div>
         <div class="weather-info">
-          <div id="date"></div>
-          <div id="tempReading">
-            <div class="temperature">
-              <span id="temperature"></span>&deg;<span id="tempUnit">C</span>
-          </div>
+            <div id="date"></div>
+            <div id="tempReading">
+                <div class="temperature">
+                    <span id="temperature"></span>&deg;<span id="tempUnit">C</span>
+                </div>
+            </div>
+            <p class="about">click temperature to convert between °C and °F</p>
         </div>
-    <p class="about">click temperature to convert between °C and °F</p>
-            <div class="footer"> by <a href="https://github.com/corrinachow">corrinachow</a> as part of <a href="https://www.freecodecamp.org" target="blank">freeCodeCamp</a>'s Front End Development curriculum.
-        </div>
-        </div>
+        <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="" crossorigin="anonymous"></script>
+        <script src="./script.js"></script>
+</body>
 
-      </div>
-
-    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="" crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
-  </body>
 </html>

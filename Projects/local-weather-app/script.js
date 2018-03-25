@@ -12,7 +12,6 @@ var weatherIcons = {
   500 : ['wi-rain', '#93a4b0', '#8299a0'], //rain
   600 : ['wi-snow', '#d2eaf9', '#effaff'], //snow
   701 : ['wi-dust', '#d48381', '#e7c6ae'], //atmosphere
-  //800 : ['wi-day-sunny', '#ffff33', '#000000'], //clear
   801 : ['wi-cloud', '#d0e2ed', '#dee8ef'], //clouds
   900 : ['wi-tornado', '#8993a2', ' #bddac8'], //tornado
   901 : ['wi-hurricane', '#5f8c96', '#83b7c7'], //hurricane storm
