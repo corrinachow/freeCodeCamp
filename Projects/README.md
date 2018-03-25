@@ -2,7 +2,7 @@
 
 ### Basic Front-End Development Projects
 
-- 01 ✅ [Tribute Page for Satory Iwata](https://codepen.io/corrinachow/full/mpNOWw/)
+- 01 ✅ [Tribute Page for Satoru Iwata](https://codepen.io/corrinachow/full/mpNOWw/)
 - 02 ✅ [Personal Portfolio Project](corrinachow.com)
 
 ### Intermediate Front-End Development Projects
