@@ -21,18 +21,16 @@ class Board extends React.Component {
     super(props);
     this.state = {
     humans: null,
-    player1Token: 'O',
-    player2Token: 'X',
+    player1Token: '',
+    player2Token: '',
     turn: 'O',
     board: [],
     gameInProgress: false,
-    winner: null
+    winner: null,
   };
-
     this.handleClick = this.handleClick.bind(this);
     this.handlePlayers = this.handlePlayers.bind(this);
     this.handleTokens = this.handleTokens.bind(this)
-
   }
 
   handlePlayers(players) {
@@ -51,7 +49,6 @@ class Board extends React.Component {
   }
 
   handleClick(square) {
-    this.checkWin();
     const { turn, board, humans, player1Token, player2Token, gameInProgress, winner } = this.state;
     if (gameInProgress) {
         if (board[square - 1] === 'X' || board[square - 1] === 'O' || winner) {
@@ -64,12 +61,9 @@ class Board extends React.Component {
                 this.computerMove();
                 this.setState({ turn: turn === 'X' ? 'X' : 'O' })
             }
-            this.checkWin();
         }
-
-    } else { // End gameinprogress
-        console.log('start game')
     }
+    this.checkWin();
   }
 
 
@@ -88,19 +82,19 @@ class Board extends React.Component {
           if (!possibleMoves.includes(box)) {
             possibleMoves.push(box);
           }
-          console.log('new move is ' )
         }
       });
-      console.log(possibleMoves)
     });
     let newMove = possibleMoves[Math.floor(Math.random() * possibleMoves.length)];
-    console.log(newMove)
     board[newMove - 1] = player2Token;
-    this.setState({turn: turn === 'X' ? 'X' : 'O'})
+    this.setState({turn: turn === 'X' ? 'X' : 'O'});
+    this.checkWin();
   }
 
   checkWin() {
     const { board, winner } = this.state;
+
+    let boardStats = []
 
     winCombos.forEach(combo => {
       let countX = 0;
@@ -108,28 +102,34 @@ class Board extends React.Component {
       combo.forEach(box => {
         if (board[box - 1] === 'X') {
           countX += 1;
-        } if (board[box - 1] === 'O') {
-          countO += 1;
-        }
-      });
-      if(!this.state.winner) {
-        if (countX === 3) {
+          if (countX == 3) {
           this.setState({winner: 'X wins'})
           setTimeout(() => this.playAgain(), 3000);
-        } else if (countO === 3) {
+        }
+      } if (board[box - 1] === 'O') {
+          countO += 1;
+          if (countO == 3) {
           this.setState({winner: 'O wins'});
           setTimeout(() => this.playAgain(), 3000);
-        } else if (board.length === 9 && !board.includes(undefined)) {
-          this.setState({winner: 'tie'});
-          setTimeout(() => this.playAgain(), 3000);
         }
-    }
+        }
+      });
+      boardStats.push(countX);
+      boardStats.push(countO);
     });
+    this.checkDraw(boardStats);
   }
 
-    playAgain () {
-      this.setState({board: [], winner: null})
+  checkDraw(currentBoard) {
+    if (!currentBoard.includes(0)) {
+      this.setState({winner: 'Tie'});
+      setTimeout(() => this.playAgain(), 3000);
     }
+  }
+
+  playAgain () {
+    this.setState({board: [], winner: null})
+  }
 
   handleReset() {
     this.setState({gameInProgress: false, player1Token: 'O', player2Token: 'X', turn: 'O', board: [], winner: null });
@@ -138,12 +138,14 @@ class Board extends React.Component {
 
 
   render() {
-    const toggleBoardVisibility = {visibility: this.state.gameInProgress ? 'visible' : 'hidden'};
+    const toggleTokenVisiblity = {visibility: this.state.humans ? 'visible' : 'hidden', opacity: this.state.humans ? '1' : '0'};
+    const toggleStartVisibility = {visibility: this.state.player1Token ? 'visible' : 'hidden', opacity: this.state.player1Token ? '1' : '0'};
+    const toggleBoardVisibility = {visibility: this.state.gameInProgress ? 'visible' : 'hidden', opacity: this.state.gameInProgress ? '1' : '0'};
     return(
       <div className="game">
-      <Players numPlayers={this.handlePlayers} />
-      <Tokens playerToken={this.handleTokens}/>
-      <button className="" onClick={this.toggleStart.bind(this)}>Start</button>
+      <Players numPlayers={this.handlePlayers}/>
+      <Tokens playerToken={this.handleTokens} tokenVisibility={toggleTokenVisiblity}/>
+      <button style={toggleStartVisibility} onClick={this.toggleStart.bind(this)}>Start</button>
         <div className="board" style={toggleBoardVisibility}>
           <button onClick={() => this.handleClick(1)}>{this.state.board[0]}</button>
           <button onClick={() => this.handleClick(2)}>{this.state.board[1]}</button>
