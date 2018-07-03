@@ -14,7 +14,7 @@
 
 ### Advanced Front-End Development Projects
 
-- 07 ✅ [Build a JavaScript Calculator](./javascript-calculator/build)
-- 08 ✅ [Build a Pomodoro Clock](./pomodoro-clock/build)
+- 07 ✅ [Build a JavaScript Calculator](./javascript-calculator)
+- 08 ✅ [Build a Pomodoro Clock](./pomodoro-clock)
 - 09 🚧 Build a Tic-Tac-Toe Game
 - 10 🚧 Build a Simon Game
